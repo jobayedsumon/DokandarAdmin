@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>{{translate('messages.error')}} 500 | {{\App\Models\BusinessSetting::where(['key'=>'business_name'])->first()->value??'Stack Food'}}</title>
+    <title>{{translate('messages.error')}} 500 | {{\App\Models\BusinessSetting::where(['key'=>'business_name'])->first()->value??'Dokandar.xyz'}}</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico">
@@ -51,7 +51,7 @@
 <div class="footer text-center">
     <ul class="list-inline list-separator">
         <li class="list-inline-item">
-            <a class="list-separator-link" target="_blank" href="https://6amtech.com/">{{\App\Models\BusinessSetting::where(['key'=>'business_name'])->first()->value??'Stack Food'}} {{translate('messages.support')}}</a>
+            <a class="list-separator-link" target="_blank" href="https://dokandar.xyz/help-and-support">{{\App\Models\BusinessSetting::where(['key'=>'business_name'])->first()->value??'Dokandar.xyz'}} {{translate('messages.support')}}</a>
         </li>
     </ul>
 </div>

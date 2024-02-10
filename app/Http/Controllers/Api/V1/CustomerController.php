@@ -343,4 +343,43 @@ class CustomerController extends Controller
         $user->delete();
         return response()->json([]);
     }
+
+    public function update_gift_address(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|exists:users,phone',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        }
+
+        $user = $request->user();
+        $phone = $request->phone;
+
+        $gift_user = User::where('phone', $phone)->first();
+        $gift_user_addresses = $gift_user->addresses;
+
+        $user->addresses()->where('type', 'gift')->delete();
+
+        foreach ($gift_user_addresses as $address) {
+            $new_address = $address->replicate();
+            $new_address->type = 'gift';
+            $user->addresses()->save($new_address);
+        }
+
+        $limit = $request['limit']??10;
+        $offset = $request['offset']??1;
+
+        $addresses = $user->addresses()->latest()->paginate($limit, ['*'], 'page', $offset);
+
+        $data =  [
+            'total_size' => $addresses->total(),
+            'limit' => $limit,
+            'offset' => $offset,
+            'addresses' => Helpers::address_data_formatting($addresses->items())
+        ];
+        return response()->json($data);
+    }
 }
