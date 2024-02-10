@@ -13,6 +13,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/payment*','/pay-via-ajax', '/success','/cancel','/fail','/ipn','/payment-razor/*','/paytm-response','/liqpay-callback','/paytm-response','/mercadopago/make-payment','/flutterwave-pay','/paytabs-response','/store-panel/item/food-variation-generate','/store-panel/item/variation-generate',
-        '/aamarpay-success', '/aamarpay-fail', '/aamarpay-cancel'
+        '/aamarpay-success', '/aamarpay-fail', '/aamarpay-cancel', '/bkash/*'
     ];
 }
