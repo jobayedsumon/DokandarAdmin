@@ -1,16 +1,17 @@
+@php
+    use App\CentralLogics\Helpers;
+    use App\Models\Module;
+    use Illuminate\Support\Facades\Config;
+ @endphp
 <div id="headerMain" class="d-none">
-    <header id="header"
-            class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered pr-0">
+    <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered pr-0">
         <div class="navbar-nav-wrap">
 
             <div class="navbar-nav-wrap-content-left d-xl-none">
                 <!-- Navbar Vertical Toggle -->
                 <button type="button" class="js-navbar-vertical-aside-toggle-invoker close mr-3">
-                    <i class="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip"
-                       data-placement="right" title="Collapse"></i>
-                    <i class="tio-last-page navbar-vertical-aside-toggle-full-align"
-                       data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-                       data-toggle="tooltip" data-placement="right" title="Expand"></i>
+                    <i class="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip" data-placement="right" title="Collapse"></i>
+                    <i class="tio-last-page navbar-vertical-aside-toggle-full-align" data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>' data-toggle="tooltip" data-placement="right" title="Expand"></i>
                 </button>
                 <!-- End Navbar Vertical Toggle -->
             </div>
@@ -30,7 +31,7 @@
                     <li class="nav-item __nav-item">
                         <a href="{{ route('admin.transactions.store.withdraw_list')}}" id="tourb-7" class="__nav-link {{ Request::is('admin/transactions*') ? 'active' : '' }}">
                             <img src="{{asset('/assets/admin/img/new-img/transaction-and-report.svg')}}" alt="public/img">
-                            <span>{{ translate('Transactions & Reports')}}</span>
+                            <span>{{ translate('Transactions')}}</span>
                         </a>
                     </li>
 
@@ -53,43 +54,43 @@
                             </div>
                             <div class="__nav-module-body">
                                 <ul>
-                                    @if (\App\CentralLogics\Helpers::module_permission_check('module'))
-                                    <li>
-                                        <a href="{{ route('admin.business-settings.module.index') }}" onclick="next_tour()">
-                                            <img src="{{asset('/assets/admin/img/navbar-setting-icon/module.svg')}}" alt="">
-                                            <span>{{translate('System Module Setup')}}</span>
-                                        </a>
-                                    </li>
+                                    @if (Helpers::module_permission_check('module'))
+                                        <li>
+                                            <a href="{{ route('admin.business-settings.module.index') }}" onclick="next_tour()">
+                                                <img src="{{asset('/assets/admin/img/navbar-setting-icon/module.svg')}}" alt="">
+                                                <span>{{translate('System Module Setup')}}</span>
+                                            </a>
+                                        </li>
                                     @endif
-                                    @if (\App\CentralLogics\Helpers::module_permission_check('zone'))
-                                    <li>
-                                        <a href="{{ route('admin.business-settings.zone.home') }}" onclick="next_tour()">
-                                            <img src="{{asset('/assets/admin/img/navbar-setting-icon/location.svg')}}" alt="">
-                                            <span>{{translate('Zone Setup')}}</span>
-                                        </a>
-                                    </li>
+                                    @if (Helpers::module_permission_check('zone'))
+                                        <li>
+                                            <a href="{{ route('admin.business-settings.zone.home') }}" onclick="next_tour()">
+                                                <img src="{{asset('/assets/admin/img/navbar-setting-icon/location.svg')}}" alt="">
+                                                <span>{{translate('Zone Setup')}}</span>
+                                            </a>
+                                        </li>
                                     @endif
-                                    @if (\App\CentralLogics\Helpers::module_permission_check('settings'))
-                                    <li>
-                                        <a href="{{ route('admin.business-settings.business-setup') }}" onclick="next_tour()">
-                                            <img src="{{asset('/assets/admin/img/navbar-setting-icon/business.svg')}}" alt="">
-                                            <span>{{translate('Business Settings')}}</span>
-                                        </a>
-                                    </li>
+                                    @if (Helpers::module_permission_check('settings'))
+                                        <li>
+                                            <a href="{{ route('admin.business-settings.business-setup') }}" onclick="next_tour()">
+                                                <img src="{{asset('/assets/admin/img/navbar-setting-icon/business.svg')}}" alt="">
+                                                <span>{{translate('Business Settings')}}</span>
+                                            </a>
+                                        </li>
                                     @endif
-                                    @if (\App\CentralLogics\Helpers::module_permission_check('settings'))
-                                    <li>
-                                        <a href="{{ route('admin.business-settings.third-party.payment-method') }}" onclick="next_tour()">
-                                            <img src="{{asset('/assets/admin/img/navbar-setting-icon/third-party.svg')}}" alt="">
-                                            <span>{{translate('3rd Party')}}</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{route('admin.business-settings.social-media.index')}}" onclick="next_tour()">
-                                            <img src="{{asset('/assets/admin/img/navbar-setting-icon/social.svg')}}" alt="">
-                                            <span>{{translate('Social Media and Page Setup')}}</span>
-                                        </a>
-                                    </li>
+                                    @if (Helpers::module_permission_check('settings'))
+                                        <li>
+                                            <a href="{{ route('admin.business-settings.third-party.payment-method') }}" onclick="next_tour()">
+                                                <img src="{{asset('/assets/admin/img/navbar-setting-icon/third-party.svg')}}" alt="">
+                                                <span>{{translate('3rd Party')}}</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{route('admin.business-settings.social-media.index')}}" onclick="next_tour()">
+                                                <img src="{{asset('/assets/admin/img/navbar-setting-icon/social.svg')}}" alt="">
+                                                <span>{{translate('Social Media and Page Setup')}}</span>
+                                            </a>
+                                        </li>
                                     @endif
                                 </ul>
                                 <div class="text-center mt-2">
@@ -98,18 +99,24 @@
                             </div>
                         </div>
                     </li>
-                    @if (\App\CentralLogics\Helpers::module_permission_check('order'))
-                    <li class="nav-item __nav-item">
-                        <a href="{{ route('admin.dispatch.dashboard')}}" id="tourb-8" class="__nav-link {{ Request::is('admin/dispatch*') ? 'active' : '' }}">
-                            <img src="{{asset('/assets/admin/img/new-img/dispatch.svg')}}" alt="public/img">
-                            <span>{{ translate('Dispatch Management')}}</span>
-                        </a>
-                    </li>
+                    @if (Helpers::module_permission_check('order'))
+                        <li class="nav-item __nav-item">
+                            <a href="{{ route('admin.dispatch.dashboard')}}" id="tourb-8" class="__nav-link {{ Request::is('admin/dispatch*') ? 'active' : '' }}">
+                                <img src="{{asset('/assets/admin/img/new-img/dispatch.svg')}}" alt="public/img">
+                                <span>{{ translate('Dispatch')}}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item __nav-item">
+                            <a href="{{ route('admin.investment.dashboard')}}" id="tourb-8" class="__nav-link {{ Request::is('admin/investment*') ? 'active' : '' }}">
+                                <img src="{{asset('assets/admin/img/new-img/transaction-and-report.svg')}}" alt="public/img">
+                                <span>{{ translate('Investment')}}</span>
+                            </a>
+                        </li>
                     @endif
 
                     <li class="nav-item max-sm-m-0 ml-auto mr-lg-3">
-                        <a class="btn btn-icon rounded-circle nav-msg-icon"
-                            href="{{route('admin.message.list')}}">
+                        <a class="btn btn-icon rounded-circle nav-msg-icon" href="{{route('admin.message.list')}}">
                             <img src="{{asset('/assets/admin/img/new-img/message-icon.svg')}}" alt="public/img">
                             @php($message=\App\Models\Conversation::whereUserType('admin')->where('unread_message_count','>','0')->count())
                             @if($message!=0)
@@ -123,97 +130,91 @@
                                 @php( $local = session()->has('local')?session('local'):'en')
                                 @php($lang = \App\Models\BusinessSetting::where('key', 'system_language')->first())
                                 @if ($lang)
-                                <div
-                                    class="topbar-text dropdown disable-autohide text-capitalize d-flex">
-                                    <a class="topbar-link dropdown-toggle d-flex align-items-center title-color"
-                                    href="#" data-toggle="dropdown">
-                                    @foreach(json_decode($lang['value'],true) as $data)
-                                    @if($data['code']==$local)
-                                    <i class="tio-globe"></i>
-                                                {{-- <img
-                                                     width="20"
-                                                     src="{{asset('assets/admin')}}/img/flags/{{$data['code']}}.png"
-                                                     alt="Eng"> --}}
-                                                {{$data['code']}}
-                                            @endif
-                                        @endforeach
-                                    </a>
-                                    <ul class="dropdown-menu lang-menu">
-                                        @foreach(json_decode($lang['value'],true) as $key =>$data)
-                                            @if($data['status']==1)
-                                                <li>
-                                                    <a class="dropdown-item py-1"
-                                                       href="{{route('admin.lang',[$data['code']])}}">
-                                                        {{-- <img
+                                    <div class="topbar-text dropdown disable-autohide text-capitalize d-flex">
+                                        <a class="topbar-link dropdown-toggle d-flex align-items-center title-color" href="#" data-toggle="dropdown">
+                                            @foreach(json_decode($lang['value'],true) as $data)
+                                                @if($data['code']==$local)
+                                                    <i class="tio-globe"></i>
+                                                    {{-- <img
+                                                         width="20"
+                                                         src="{{asset('assets/admin')}}/img/flags/{{$data['code']}}.png"
+                                                         alt="Eng"> --}}
+                                                    {{$data['code']}}
+                                                @endif
+                                            @endforeach
+                                        </a>
+                                        <ul class="dropdown-menu lang-menu">
+                                            @foreach(json_decode($lang['value'],true) as $key =>$data)
+                                                @if($data['status']==1)
+                                                    <li>
+                                                        <a class="dropdown-item py-1" href="{{route('admin.lang',[$data['code']])}}">
+                                                            {{-- <img
 
-                                                            width="20"
-                                                            src="{{asset('assets/admin')}}/img/flags/{{$data['code']}}.png"
-                                                            alt="{{$data['code']}}"/> --}}
-                                                        <span class="text-capitalize">{{$data['code']}}</span>
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
+                                                                width="20"
+                                                                src="{{asset('assets/admin')}}/img/flags/{{$data['code']}}.png"
+                                                                alt="{{$data['code']}}"/> --}}
+                                                            <span class="text-capitalize">{{$data['code']}}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
                                 @endif
                             </div>
                         </div>
                     </li>
-                    @php($mod = \App\Models\Module::find(Config::get('module.current_module_id')))
+                    @php($mod = Module::find(Config::get('module.current_module_id')))
                     <li class="nav-item __nav-item">
                         <a href="javascript:void(0)" class="__nav-link module--nav-icon" id="tourb-0">
                             @if ($mod)
-                            <img  src="{{asset('storage/app/public/module')}}/{{$mod->icon}}" onerror="this.src='{{asset('/assets/admin/img/new-img/module-icon.svg')}}'" width="20px" alt="public/img">
+                                <img src="{{asset('storage/app/public/module')}}/{{$mod->icon}}" onerror="this.src='{{asset('/assets/admin/img/new-img/module-icon.svg')}}'" width="20px" alt="public/img">
                             @else
-                            <img src="{{asset('/assets/admin/img/new-img/module-icon.svg')}}" alt="public/img">
+                                <img src="{{asset('/assets/admin/img/new-img/module-icon.svg')}}" alt="public/img">
                             @endif
                             <span class="text-white">{{ $mod ? $mod->module_name : translate('modules') }}</span>
-                            <img  src="{{asset('/assets/admin/img/new-img/angle-white.svg')}}" class="d-none d-lg-block ml-xl-2" alt="public/img">
+                            <img src="{{asset('/assets/admin/img/new-img/angle-white.svg')}}" class="d-none d-lg-block ml-xl-2" alt="public/img">
                         </a>
                         <div class="__nav-module style-2" id="tourb-1">
-                            @php($modules = \App\Models\Module::when(auth('admin')->user()->zone_id, function($query){
+                            @php($modules = Module::when(auth('admin')->user()->zone_id, function($query){
                                 $query->whereHas('zones',function($query){
                                     $query->where('zone_id',auth('admin')->user()->zone_id);
                                 });
                             })->Active()->get())
                             @if(isset($modules) && ($modules->count()>0))
-                            <div class="__nav-module-header">
-                                <div class="inner">
-                                    <h4>{{translate('Modules Section')}}</h4>
-                                    <p>
-                                        {{translate('Select Module & Monitor your business module wise')}}
-                                    </p>
+                                <div class="__nav-module-header">
+                                    <div class="inner">
+                                        <h4>{{translate('Modules Section')}}</h4>
+                                        <p>
+                                            {{translate('Select Module & Monitor your business module wise')}}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="__nav-module-body">
-                                <div class="__nav-module-items">
-                                    @foreach ($modules as $module)
-                                        <a href="javascript:;" onclick="set_filter('{{route('admin.dashboard')}}','{{ $module->id }}','module_id')" class="__nav-module-item {{Config::get('module.current_module_id') == $module->id?'active':''}}">
-                                            <div class="img w--70px">
-                                                <img src="{{asset('storage/app/public/module')}}/{{$module->icon}}"
-                                                onerror="this.src='{{asset('assets/admin/img/new-img/module/e-shop.svg')}}'"
-                                                alt="new-img" class="mw-100">
-                                            </div>
-                                            <div>
-                                                {{ $module->module_name }}
-                                            </div>
-                                        </a>
+                                <div class="__nav-module-body">
+                                    <div class="__nav-module-items">
+                                        @foreach ($modules as $module)
+                                            <a href="javascript:" onclick="set_filter('{{route('admin.dashboard')}}','{{ $module->id }}','module_id')" class="__nav-module-item {{Config::get('module.current_module_id') == $module->id?'active':''}}">
+                                                <div class="img w--70px">
+                                                    <img src="{{asset('storage/app/public/module')}}/{{$module->icon}}" onerror="this.src='{{asset('assets/admin/img/new-img/module/e-shop.svg')}}'" alt="new-img" class="mw-100">
+                                                </div>
+                                                <div>
+                                                    {{ $module->module_name }}
+                                                </div>
+                                            </a>
                                         @endforeach
-                                        @if (\App\CentralLogics\Helpers::module_permission_check('module'))
-                                        <a href="{{ route('admin.business-settings.module.create') }}" class="__nav-module-item" data-toggle="tooltip"
-                                        data-placement="top" title="{{ translate('add_new_module') }}">
-                                            <i class="tio-add display-3"></i>
-                                        </a>
+                                        @if (Helpers::module_permission_check('module'))
+                                            <a href="{{ route('admin.business-settings.module.create') }}" class="__nav-module-item" data-toggle="tooltip" data-placement="top" title="{{ translate('add_new_module') }}">
+                                                <i class="tio-add display-3"></i>
+                                            </a>
                                         @endif
+                                    </div>
                                 </div>
-                            </div>
                             @else
-                            <div class="__nav-module-body text-center py-5">
-                                <img class="w--120px" src="{{ asset('/assets/admin/img/empty-box.png') }}" alt="">
-                                <h2 class="my-4">{{ translate('Please, Enable or Create Module First') }}</h2>
-                                <a href="{{ route('admin.business-settings.module.index') }}" class="btn btn--primary">{{ translate('messages.Module Setup') }}</a>
-                            </div>
+                                <div class="__nav-module-body text-center py-5">
+                                    <img class="w--120px" src="{{ asset('/assets/admin/img/empty-box.png') }}" alt="">
+                                    <h2 class="my-4">{{ translate('Please, Enable or Create Module First') }}</h2>
+                                    <a href="{{ route('admin.business-settings.module.index') }}" class="btn btn--primary">{{ translate('messages.Module Setup') }}</a>
+                                </div>
                             @endif
                         </div>
                     </li>
@@ -234,7 +235,7 @@
             <span class="text-capitalize">{{ translate('Turotial') }}</span>
         </span>
     </a>
-    <div class="d-flex align-items-center gap-10px"  onclick="restartTour()">
+    <div class="d-flex align-items-center gap-10px" onclick="restartTour()">
         <img src="{{ asset('assets/admin/img/tour.svg') }}" alt="">
         <span>
             <span class="text-capitalize">{{ translate('Tour') }}</span>

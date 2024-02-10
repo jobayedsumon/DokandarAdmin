@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\CustomerInvestment;
 use Illuminate\Support\ServiceProvider;
 use App\Traits\AddonHelper;
 use Illuminate\Pagination\Paginator;
@@ -28,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
+
         try
         {
             Config::set('addon_admin_routes',$this->get_addon_admin_routes());
@@ -38,11 +39,28 @@ class AppServiceProvider extends ServiceProvider
             {
                 view()->share($key, $value);
             }
+
+            $locked_in_investments = CustomerInvestment::where('redeemed_at', null)
+                ->whereHas('package', function ($q) {
+                    $q->where('type', 'locked-in');
+                })->get();
+
+            foreach ($locked_in_investments as $investment) {
+                $created_at         = $investment->created_at;
+                $duration_in_months = $investment->package->duration_in_months;
+                $redeemable         = $created_at->addMonths($duration_in_months);
+                if ($redeemable->isPast())
+                {
+                    $investment->redeemed_at = now();
+                    $investment->save();
+                }
+            }
+
         }
         catch(\Exception $e)
         {
 
         }
-        
+
     }
 }

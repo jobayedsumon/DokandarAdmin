@@ -794,6 +794,32 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             });
         });
 
+        Route::group(['prefix' => 'investment', 'as' => 'investment.'], function () {
+            Route::get('/', 'InvestmentController@dashboard')->name('dashboard');
+            Route::group(['middleware' => ['module:order']], function () {
+
+                Route::get('flexible', 'InvestmentController@flexible_packages')->name('flexible');
+                Route::get('flexible/create', 'InvestmentController@flexible_package_create')->name('flexible.create');
+                Route::post('flexible/store', 'InvestmentController@flexible_package_store')->name('flexible.store');
+                Route::get('flexible/edit/{id}', 'InvestmentController@flexible_package_edit')->name('flexible.edit');
+                Route::post('flexible/update/{id}', 'InvestmentController@flexible_package_update')->name('flexible.update');
+                Route::delete('flexible/delete/{id}', 'InvestmentController@flexible_package_delete')->name('flexible.delete');
+
+                Route::get('locked-in', 'InvestmentController@locked_in_packages')->name('locked-in');
+                Route::get('locked-in/create', 'InvestmentController@locked_in_package_create')->name('locked-in.create');
+                Route::post('locked-in/store', 'InvestmentController@locked_in_package_store')->name('locked-in.store');
+                Route::get('locked-in/edit/{id}', 'InvestmentController@locked_in_package_edit')->name('locked-in.edit');
+                Route::post('locked-in/update/{id}', 'InvestmentController@locked_in_package_update')->name('locked-in.update');
+                Route::delete('locked-in/delete/{id}', 'InvestmentController@locked_in_package_delete')->name('locked-in.delete');
+
+                Route::get('customer-investments', 'InvestmentController@customer_investments')->name('customer-investments');
+                Route::get('investments-withdrawals', 'InvestmentController@investment_withdrawals')->name('investment-withdrawals');
+                Route::post('investments-withdrawal/{id}', 'InvestmentController@withdrawal_pay')->name('withdrawal-pay');
+
+                Route::get('customers-wallet-balance', 'InvestmentController@customers_wallet_balance')->name('customers-wallet-balance');
+            });
+        });
+
         Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
             Route::get('/', 'DashboardController@user_dashboard')->name('dashboard');
             Route::group(['prefix' => 'delivery-man', 'as' => 'delivery-man.'], function () {
