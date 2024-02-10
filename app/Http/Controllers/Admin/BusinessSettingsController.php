@@ -678,7 +678,7 @@ class BusinessSettingsController extends Controller
             $published_status = $payment_published_status[0]['is_published'];
         }
 
-        $routes = config('addon_admin_routes');
+        $routes = config('addon_admin_routes') ?? [];
         $desiredName = 'payment_setup';
         $payment_url = '';
 

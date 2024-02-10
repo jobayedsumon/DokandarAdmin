@@ -330,6 +330,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
                 Route::get('transactions', 'WalletController@transactions');
                 Route::get('bonuses', 'WalletController@get_bonus');
                 Route::post('add-fund', 'WalletController@add_fund');
+                Route::post('fund-transfer', 'WalletController@fund_transfer');
             });
 
             // Route::group(['prefix'=>'cart'], function() {

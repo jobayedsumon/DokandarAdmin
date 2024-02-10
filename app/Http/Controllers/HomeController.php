@@ -106,11 +106,11 @@ class HomeController extends Controller
             'fixed_link'=> (isset($settings['fixed_link']) )  ? json_decode($settings['fixed_link'], true) : null ,
         ];
 
-        
+
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
 
             return view('home',compact('landing_data'));
@@ -137,7 +137,7 @@ class HomeController extends Controller
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
             return view('terms-and-conditions', compact('data'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
@@ -164,7 +164,7 @@ class HomeController extends Controller
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
             return view('about-us', compact('data','data_title'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
@@ -181,7 +181,7 @@ class HomeController extends Controller
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
             return view('contact-us');
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
@@ -227,7 +227,7 @@ class HomeController extends Controller
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
             return view('privacy-policy',compact('data'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
@@ -255,7 +255,7 @@ class HomeController extends Controller
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
             return view('refund',compact('data'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
@@ -283,7 +283,7 @@ class HomeController extends Controller
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
             return view('shipping-policy',compact('data'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
@@ -311,7 +311,7 @@ class HomeController extends Controller
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
-        
+
         if(isset($config) && $config){
             return view('cancelation',compact('data'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){

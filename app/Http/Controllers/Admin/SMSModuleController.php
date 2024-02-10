@@ -13,7 +13,7 @@ class SMSModuleController extends Controller
     {
         $published_status = addon_published_status('Gateways');
 
-        $routes = config('addon_admin_routes');
+        $routes = config('addon_admin_routes') ?? [];
         $desiredName = 'sms_setup';
         $payment_url = '';
         foreach ($routes as $routeArray) {
@@ -24,7 +24,7 @@ class SMSModuleController extends Controller
                 }
             }
         }
-        $data_values=  Setting::where('settings_type','sms_config')->whereIn('key_name', ['twilio','nexmo','2factor','msg91'])->get() ?? [];
+        $data_values=  Setting::where('settings_type','sms_config')->whereIn('key_name', ['twilio','nexmo','2factor','msg91', 'alpha_sms'])->get() ?? [];
         return view('admin-views.business-settings.sms-index',compact('data_values','published_status','payment_url'));
     }
 
@@ -56,6 +56,20 @@ class SMSModuleController extends Controller
                 'status' => $request['status'],
                 'api_key' => $request['api_key'],
             ];
+        } elseif($module == 'alpha_sms') {
+            DB::table('business_settings')->updateOrInsert(['key' => 'alpha_sms'], [
+                'key' => 'alpha_sms',
+                'value' => json_encode([
+                    'status' => $request['status'],
+                    'api_key' => $request['api_key'],
+                ]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            $additional_data = [
+                'status' => $request['status'],
+                'api_key' => $request['api_key'],
+            ];
         } elseif ($module == 'msg91') {
             $additional_data = [
                 'status' => $request['status'],
@@ -79,7 +93,7 @@ class SMSModuleController extends Controller
     ]);
 
     if ($request['status'] == 1) {
-        foreach (['twilio','nexmo','2factor','msg91'] as $gateway) {
+        foreach (['twilio','nexmo','2factor','msg91', 'alpha_sms'] as $gateway) {
             if ($module != $gateway) {
                 $keep = Setting::where(['key_name' => $gateway, 'settings_type' => 'sms_config'])->first();
                 if (isset($keep)) {

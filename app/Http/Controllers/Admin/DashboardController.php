@@ -56,7 +56,7 @@ class DashboardController extends Controller
             return $q->where('zone_id', $params['zone_id']);
         })
         ->Zonewise()->where('application_status','approved')->where('active',0)->count();
-        
+
         $newly_joined_deliveryman = DeliveryMan::when(is_numeric($params['zone_id']), function ($q) use ($params) {
             return $q->where('zone_id', $params['zone_id']);
         })
@@ -184,7 +184,7 @@ class DashboardController extends Controller
             return $q->where('zone_id', $params['zone_id']);
         })
         ->Zonewise()->where('active',1)->Available()->count();
-        
+
         $newly_joined_deliveryman = DeliveryMan::when(is_numeric($params['zone_id']), function ($q) use ($params) {
             return $q->where('zone_id', $params['zone_id']);
         })
@@ -631,7 +631,7 @@ class DashboardController extends Controller
         $top_deliveryman = DeliveryMan::withCount('orders')->when(is_numeric($params['zone_id']), function ($q) use ($params) {
                 return $q->where('zone_id', $params['zone_id']);
             })
-            ->Zonewise()    
+            ->Zonewise()
             ->orderBy("orders_count", 'desc')
             ->take(6)
             ->get();
