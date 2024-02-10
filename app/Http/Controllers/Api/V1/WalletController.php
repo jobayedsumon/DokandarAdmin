@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\WalletBonus;
 use App\Models\WalletPayment;
 use App\Models\WalletTransaction;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Library\Payer;
