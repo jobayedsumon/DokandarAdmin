@@ -3575,4 +3575,5 @@
   'alpha_sms' => 'Alpha sms',
   'aamarPay' => 'AamarPay',
   'EX of SMS provider`s template : Your Dokandar OTP Code is #OTP#' => 'EX of SMS provider`s template : Your Dokandar OTP Code is #OTP#',
+  'send gift' => 'Send gift',
 );
