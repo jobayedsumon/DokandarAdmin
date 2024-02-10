@@ -3573,4 +3573,6 @@
   'username_for_token' => 'Username for token',
   'sender' => 'Sender',
   'alpha_sms' => 'Alpha sms',
+  'aamarPay' => 'AamarPay',
+  'EX of SMS provider`s template : Your Dokandar OTP Code is #OTP#' => 'EX of SMS provider`s template : Your Dokandar OTP Code is #OTP#',
 );

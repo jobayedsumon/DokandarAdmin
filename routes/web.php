@@ -69,6 +69,18 @@ Route::get('payment-success', 'PaymentController@success')->name('payment-succes
 Route::get('payment-fail', 'PaymentController@fail')->name('payment-fail');
 Route::get('payment-cancel', 'PaymentController@cancel')->name('payment-cancel');
 
+//AAMARPAY start
+
+Route::post('/aamarpay-payment','AamarpayController@index')->name('aamarpay-payment');
+
+Route::post('/aamarpay-success','AamarpayController@success')->name('aamarpay-success');
+
+Route::post('/aamarpay-fail','AamarpayController@fail')->name('aamarpay-fail');
+
+Route::get('/aamarpay-cancel','AamarpayController@cancel')->name('aamarpay-cancel');
+
+//AAMARPAY end
+
 $is_published = 0;
 try {
 $full_data = include('Modules/Gateways/Addon/info.php');
