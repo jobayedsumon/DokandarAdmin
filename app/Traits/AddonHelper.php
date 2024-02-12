@@ -4,15 +4,22 @@ namespace App\Traits;
 
 trait AddonHelper
 {
+    private string $moduleDirectory = '';
+    private array $rootDirectories = [];
+
+    public function __construct()
+    {
+        $this->moduleDirectory = base_path('Modules/');
+        $this->rootDirectories = $this->getDirectories($this->moduleDirectory);
+    }
+
     public function get_addons(): array
     {
-        $dir = 'Modules';
-        $directories = self::getDirectories($dir);
         $addons = [];
-        foreach ($directories as $directory) {
-            $sub_dirs = self::getDirectories('Modules/' . $directory);
+        foreach ($this->rootDirectories as $directory) {
+            $sub_dirs = self::getDirectories($this->moduleDirectory . $directory);
             if (in_array('Addon', $sub_dirs)) {
-                $addons[] = 'Modules/' . $directory;
+                $addons[] = $this->moduleDirectory . $directory;
             }
         }
 
@@ -31,13 +38,11 @@ trait AddonHelper
 
     public function get_addon_admin_routes(): array
     {
-        $dir = 'Modules';
-        $directories = self::getDirectories($dir);
         $addons = [];
-        foreach ($directories as $directory) {
-            $sub_dirs = self::getDirectories('Modules/' . $directory);
+        foreach ($this->rootDirectories as $directory) {
+            $sub_dirs = self::getDirectories($this->moduleDirectory . $directory);
             if (in_array('Addon', $sub_dirs)) {
-                $addons[] = 'Modules/' . $directory;
+                $addons[] = $this->moduleDirectory . $directory;
             }
         }
 
@@ -54,15 +59,12 @@ trait AddonHelper
 
     public function get_payment_publish_status(): array
     {
-        $dir = 'Modules'; // Update the directory path to Modules/Gateways
-        $directories = self::getDirectories($dir);
-        // dd($directories);
         $addons = [];
-        foreach ($directories as $directory) {
-            $sub_dirs = self::getDirectories($dir . '/' . $directory); // Use $dir instead of 'Modules/'
+        foreach ($this->rootDirectories as $directory) {
+            $sub_dirs = self::getDirectories($this->moduleDirectory . $directory); // Use $dir instead of 'Modules/'
             if($directory == 'Gateways'){
                 if (in_array('Addon', $sub_dirs)) {
-                    $addons[] = $dir . '/' . $directory; // Use $dir instead of 'Modules/'
+                    $addons[] = $this->moduleDirectory . $directory; // Use $dir instead of 'Modules/'
                 }
             }
         }

@@ -55,12 +55,10 @@ class AppServiceProvider extends ServiceProvider
                     $investment->save();
                 }
             }
-
         }
         catch(\Exception $e)
         {
-
+//            dd($e->getMessage());
         }
-
     }
 }

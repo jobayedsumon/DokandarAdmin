@@ -3619,4 +3619,5 @@
   'invested' => 'Invested',
   'Go to page :page' => 'Go to page :page',
   'results' => 'Results',
+  'failed_to_send_sms' => 'Failed to send sms',
 );
