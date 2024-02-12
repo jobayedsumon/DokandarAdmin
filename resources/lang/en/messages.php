@@ -3617,4 +3617,6 @@
   'withdrawals' => 'Withdrawals',
   'Profit' => 'Profit',
   'invested' => 'Invested',
+  'Go to page :page' => 'Go to page :page',
+  'results' => 'Results',
 );
