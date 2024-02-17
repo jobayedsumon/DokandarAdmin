@@ -73,7 +73,7 @@ trait Payment
             'phonepe' => 'payment/phonepe/pay',
             'cashfree' => 'payment/cashfree/pay',
             'instamojo' => 'payment/instamojo/pay',
-            'aamarpay' => 'aamarpay-payment',
+            'aamarpay' => 'payment/aamarpay/pay',
         ];
         if (array_key_exists($payment->payment_method, $routes)) {
             return url("{$routes[$payment->payment_method]}/?payment_id={$payment->id}");

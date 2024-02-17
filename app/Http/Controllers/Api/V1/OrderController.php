@@ -430,8 +430,8 @@ class OrderController extends Controller
         }
 
         //Added service charge
-        $additional_charge_status = BusinessSetting::where('key', 'additional_charge_status')->first()->value;
-        $additional_charge = BusinessSetting::where('key', 'additional_charge')->first()->value;
+        $additional_charge_status = BusinessSetting::where('key', 'additional_charge_status')->first()?->value;
+        $additional_charge = BusinessSetting::where('key', 'additional_charge')->first()?->value;
         if ($additional_charge_status == 1) {
             $order->additional_charge = $additional_charge ?? 0;
         } else {

@@ -29,9 +29,9 @@ class SMS_module
             return self::msg_91($receiver, $otp);
         }
 
-        $config = self::get_settings('alpha_sms');
+        $config = self::get_settings('alphanet_sms');
         if (isset($config) && $config['status'] == 1) {
-            $response = self::alpha_sms($receiver, $otp);
+            $response = self::alphanet_sms($receiver, $otp);
             return $response;
         }
 
@@ -123,9 +123,9 @@ class SMS_module
         return $response;
     }
 
-    public static function alpha_sms($receiver, $otp)
+    public static function alphanet_sms($receiver, $otp)
     {
-        $config = self::get_settings('alpha_sms');
+        $config = self::get_settings('alphanet_sms');
         $response = 'error';
         if (isset($config) && $config['status'] == 1) {
             $api_key = $config['api_key'];
@@ -147,8 +147,8 @@ class SMS_module
                 $response = 'error';
             }
         } elseif (empty($config)) {
-            DB::table('business_settings')->updateOrInsert(['key' => 'alpha_sms'], [
-                'key' => 'alpha_sms',
+            DB::table('business_settings')->updateOrInsert(['key' => 'alphanet_sms'], [
+                'key' => 'alphanet_sms',
                 'value' => json_encode([
                     'status' => 0,
                     'api_key' => 'mpF1FwAgbkTRd2G7B6gNT9bZsZM5KWogqzHjoX7z',

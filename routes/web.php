@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AamarpayController;
 use App\Models\ItemTag;
 
 use App\Models\Translation;
@@ -65,21 +66,9 @@ Route::group(['prefix' => 'payment-mobile'], function () {
     Route::get('set-payment-method/{name}', 'PaymentController@set_payment_method')->name('set-payment-method');
 });
 
-Route::get('payment-success', 'PaymentController@success')->name('payment-success');
-Route::get('payment-fail', 'PaymentController@fail')->name('payment-fail');
-Route::get('payment-cancel', 'PaymentController@cancel')->name('payment-cancel');
-
-//AAMARPAY start
-
-Route::post('/aamarpay-payment','AamarpayController@index')->name('aamarpay-payment');
-
-Route::post('/aamarpay-success','AamarpayController@success')->name('aamarpay-success');
-
-Route::post('/aamarpay-fail','AamarpayController@fail')->name('aamarpay-fail');
-
-Route::get('/aamarpay-cancel','AamarpayController@cancel')->name('aamarpay-cancel');
-
-//AAMARPAY end
+Route::any('payment-success', 'PaymentController@success')->name('payment-success');
+Route::any('payment-fail', 'PaymentController@fail')->name('payment-fail');
+Route::any('payment-cancel', 'PaymentController@cancel')->name('payment-cancel');
 
 $is_published = 0;
 try {
@@ -99,6 +88,14 @@ if (!$is_published) {
                 ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
             Route::post('canceled', [SslCommerzPaymentController::class, 'canceled'])
                 ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+        });
+
+        //AamarPay
+        Route::group(['prefix' => 'aamarpay', 'as' => 'aamarpay.'], function () {
+            Route::get('pay', [AamarpayController::class, 'index'])->name('pay');
+            Route::any('success', [AamarpayController::class, 'success'])->name('success');
+            Route::any('fail', [AamarpayController::class, 'fail'])->name('fail');
+            Route::any('cancel', [AamarpayController::class, 'cancel'])->name('cancel');
         });
 
         //STRIPE
