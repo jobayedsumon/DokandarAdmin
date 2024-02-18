@@ -3626,4 +3626,6 @@
   'Shopping Mall' => 'Shopping Mall',
   'aamarpay' => 'Aamarpay',
   'order_canceled_successfully' => 'Order canceled successfully',
+  'addresses' => 'Addresses',
+  'fund_transfer' => 'Fund transfer',
 );

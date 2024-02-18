@@ -32,29 +32,14 @@ class AppServiceProvider extends ServiceProvider
 
         try
         {
-            Config::set('addon_admin_routes',$this->get_addon_admin_routes());
-            Config::set('get_payment_publish_status',$this->get_payment_publish_status());
             Paginator::useBootstrap();
             foreach(Helpers::get_view_keys() as $key=>$value)
             {
                 view()->share($key, $value);
             }
 
-            $locked_in_investments = CustomerInvestment::where('redeemed_at', null)
-                ->whereHas('package', function ($q) {
-                    $q->where('type', 'locked-in');
-                })->get();
-
-            foreach ($locked_in_investments as $investment) {
-                $created_at         = $investment->created_at;
-                $duration_in_months = $investment->package->duration_in_months;
-                $redeemable         = $created_at->addMonths($duration_in_months);
-                if ($redeemable->isPast())
-                {
-                    $investment->redeemed_at = now();
-                    $investment->save();
-                }
-            }
+            Config::set('addon_admin_routes',$this->get_addon_admin_routes());
+            Config::set('get_payment_publish_status',$this->get_payment_publish_status());
         }
         catch(\Exception $e)
         {
