@@ -42,8 +42,14 @@ class RedeemLockedInPackageScheduler extends Command
                 {
                     $investment->redeemed_at = now();
                     $investment->save();
+
+                    Log::info('Locked in package redeemed successfully.');
                 }
+
+                Log::info('Locked in package not redeemed.');
             }
+
+            Log::info('Locked in package scheduler executed successfully.');
         }
         catch (\Exception $e)
         {
