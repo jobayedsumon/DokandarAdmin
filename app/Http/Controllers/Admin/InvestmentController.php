@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 class InvestmentController extends Controller
 {
@@ -63,11 +64,19 @@ class InvestmentController extends Controller
             'status'                => 'required',
         ]);
 
+        if ($request->has('image')) {
+            $image_name = Helpers::upload('investment/', 'png', $request->file('image'));
+        } else {
+            $image_name = 'def.png';
+        }
+
         $package                        = new InvestmentPackage;
         $package->name                  = $request->name;
         $package->type                  = 'flexible';
         $package->amount                = $request->amount;
         $package->monthly_interest_rate = $request->monthly_interest_rate;
+        $package->image                 = $image_name;
+        $package->about                 = $request->about;
         $package->status                = $request->status;
         $package->save();
 
@@ -90,11 +99,20 @@ class InvestmentController extends Controller
             'status'                => 'required',
         ]);
 
-        $package                        = InvestmentPackage::find($id);
+        $package = InvestmentPackage::find($id);
+
+        if ($request->has('image')) {
+            $image_name = Helpers::update('investment/', $package->image, 'png', $request->file('image'));
+        } else {
+            $image_name = $package->image;
+        }
+
         $package->name                  = $request->name;
         $package->type                  = 'flexible';
         $package->amount                = $request->amount;
         $package->monthly_interest_rate = $request->monthly_interest_rate;
+        $package->image                 = $image_name;
+        $package->about                 = $request->about;
         $package->status                = $request->status;
         $package->save();
 
@@ -104,6 +122,9 @@ class InvestmentController extends Controller
     public function flexible_package_delete($id)
     {
         $package = InvestmentPackage::find($id);
+        if (Storage::disk('public')->exists('investment/' . $package->image)) {
+            Storage::disk('public')->delete('investment/' . $package->image);
+        }
         $package->delete();
         return redirect()->route('admin.investment.flexible')->with('success', 'Package deleted successfully!');
     }
@@ -131,12 +152,20 @@ class InvestmentController extends Controller
             'status'                => 'required',
         ]);
 
+        if ($request->has('image')) {
+            $image_name = Helpers::upload('investment/', 'png', $request->file('image'));
+        } else {
+            $image_name = 'def.png';
+        }
+
         $package                        = new InvestmentPackage;
         $package->name                  = $request->name;
         $package->type                  = 'locked-in';
         $package->amount                = $request->amount;
         $package->monthly_interest_rate = $request->monthly_interest_rate;
         $package->duration_in_months    = $request->duration_in_months;
+        $package->image                 = $image_name;
+        $package->about                 = $request->about;
         $package->status                = $request->status;
         $package->save();
 
@@ -160,12 +189,21 @@ class InvestmentController extends Controller
             'status'                => 'required',
         ]);
 
-        $package                        = InvestmentPackage::find($id);
+        $package = InvestmentPackage::find($id);
+
+        if ($request->has('image')) {
+            $image_name = Helpers::update('investment/', $package->image, 'png', $request->file('image'));
+        } else {
+            $image_name = $package->image;
+        }
+
         $package->name                  = $request->name;
         $package->type                  = 'locked-in';
         $package->amount                = $request->amount;
         $package->monthly_interest_rate = $request->monthly_interest_rate;
         $package->duration_in_months    = $request->duration_in_months;
+        $package->image                 = $image_name;
+        $package->about                 = $request->about;
         $package->status                = $request->status;
         $package->save();
 
@@ -175,6 +213,9 @@ class InvestmentController extends Controller
     public function locked_in_package_delete($id)
     {
         $package = InvestmentPackage::find($id);
+        if (Storage::disk('public')->exists('investment/' . $package->image)) {
+            Storage::disk('public')->delete('investment/' . $package->image);
+        }
         $package->delete();
         return redirect()->route('admin.investment.locked-in')->with('success', 'Package deleted successfully!');
     }

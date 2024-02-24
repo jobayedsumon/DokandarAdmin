@@ -14,7 +14,7 @@
         <div class="row g-3">
             <div class="col-12">
                 <div class="card p-5">
-                    <form action="{{ route('admin.investment.flexible.update', $package->id) }}" method="POST">
+                    <form action="{{ route('admin.investment.flexible.update', $package->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -45,7 +45,29 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary">{{translate('messages.submit')}}</button>
+                                <div class="d-flex flex-column h-100">
+                                    <label class="input-label">Project Image</label>
+                                    <center class="py-3 my-auto">
+                                        <img class="object-cover" id="viewer" width="400px" height="200px"
+                                             src="{{asset('storage/app/public/investment').'/'.$package->image}}"
+                                             onerror='this.src="{{asset('/assets/admin/img/admin.png')}}"'
+                                             alt="delivery-man image"/>
+                                    </center>
+                                    <div class="custom-file">
+                                        <input type="file" name="image" id="customFileEg1" class="custom-file-input"
+                                               accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required>
+                                        <label class="custom-file-label" for="customFileEg1">{{translate('messages.choose_file')}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex flex-column h-100">
+                                    <label class="input-label">About Project</label>
+                                    <textarea name="about" class="form-control" rows="12">{{ $package->about }}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary mt-5">{{translate('messages.submit')}}</button>
                             </div>
                         </div>
                     </form>

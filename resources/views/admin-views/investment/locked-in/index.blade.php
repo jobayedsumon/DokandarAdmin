@@ -37,7 +37,7 @@
                                }'>
                             <thead class="thead-light">
                             <tr class="text-center">
-                                <th class="border-0">{{translate('SL')}}</th>
+                                <th class="border-0">{{translate('Image')}}</th>
                                 <th class="border-0">{{translate('messages.name')}}</th>
                                 <th class="border-0">{{translate('messages.Amount')}}</th>
                                 <th class="border-0">{{translate('messages.Monthly Interest Rate')}}</th>
@@ -52,9 +52,7 @@
                             @forelse($packages as $package)
                                 <tr>
                                     <td class="text-center">
-                                        <span class="mr-3">
-                                            {{$loop->index+1}}
-                                        </span>
+                                        <img width="100px" src="{{asset('storage/app/public/investment').'/'.$package->image}}" alt="">
                                     </td>
                                     <td class="text-center">
                                         <span class="text-body mr-3">

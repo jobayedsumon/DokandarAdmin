@@ -3628,4 +3628,6 @@
   'order_canceled_successfully' => 'Order canceled successfully',
   'addresses' => 'Addresses',
   'fund_transfer' => 'Fund transfer',
+  'withdrawn' => 'Withdrawn',
+  'investments' => 'Investments',
 );

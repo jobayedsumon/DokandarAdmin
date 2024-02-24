@@ -334,6 +334,22 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
                 Route::post('fund-transfer', 'WalletController@fund_transfer');
             });
 
+            Route::group(['prefix' => 'investment'], function () {
+
+                Route::get('packages', 'InvestmentController@packages');
+                Route::get('package/view/{id}', 'InvestmentController@package_view');
+
+                Route::post('invest', 'InvestmentController@invest');
+                Route::post('redeem', 'InvestmentController@redeem');
+                Route::post('withdraw', 'InvestmentController@withdraw');
+
+                Route::get('investments', 'InvestmentController@investments');
+                Route::get('withdrawals', 'InvestmentController@withdrawals');
+
+                Route::post('transfer', 'InvestmentController@transfer');
+
+            });
+
             // Route::group(['prefix'=>'cart'], function() {
             //     Route::get('list', 'CartController@get_carts');
             //     Route::post('add', 'CartController@add_to_cart');

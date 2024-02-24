@@ -22,4 +22,9 @@ class InvestmentPackage extends Model
     {
         return $this->monthly_profit / 30;
     }
+
+    public function getImageAttribute($value)
+    {
+        return asset('storage/app/public/investment').'/'.$value;
+    }
 }

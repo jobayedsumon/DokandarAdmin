@@ -176,7 +176,7 @@
                                 denyButtonText: `Don't Logout`,
                                 }).then((result) => {
                                 if (result.value) {
-                                location.href='{{route('admin.auth.logout')}}';
+                                location.href='{{route('logout')}}';
                                 } else{
                                 Swal.fire('{{ translate('messages.canceled') }}', '', 'info')
                                 }
