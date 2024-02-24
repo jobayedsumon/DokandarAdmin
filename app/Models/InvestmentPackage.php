@@ -13,6 +13,11 @@ class InvestmentPackage extends Model
 
     protected $appends = ['monthly_profit', 'daily_profit'];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
     public function getMonthlyProfitAttribute()
     {
         return $this->amount * $this->monthly_interest_rate / 100;
