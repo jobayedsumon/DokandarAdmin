@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Admin;
+use App\Models\CustomerInvestment;
+use App\Models\InvestmentPayment;
 use App\Models\Order;
 use App\Models\Store;
 use App\Models\AdminWallet;
@@ -383,8 +385,29 @@ function wallet_success($data) {
     }
 }
 
+function investment_success($data) {
+
+    $order = InvestmentPayment::find($data->attribute_id);
+    $order->payment_method=$data->payment_method;
+    // $order->transaction_reference=$data->transaction_ref;
+    $order->payment_status='success';
+    $order->save();
+
+    CustomerInvestment::create([
+        'customer_id' => $order->customer_id,
+        'investment_id' => $order->investment_id,
+    ]);
+}
+
 function wallet_failed($data) {
     $order = WalletPayment::find($data->attribute_id);
+    $order->payment_status='failed';
+    $order->payment_method=$data->payment_method;
+    $order->save();
+}
+
+function investment_failed($data) {
+    $order = InvestmentPayment::find($data->attribute_id);
     $order->payment_status='failed';
     $order->payment_method=$data->payment_method;
     $order->save();
