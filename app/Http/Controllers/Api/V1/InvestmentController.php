@@ -39,14 +39,26 @@ class InvestmentController extends Controller
         return response()->json($package);
     }
 
-    public function investments(Request $request)
+    public function my_investments(Request $request)
     {
         $investments = $request->user()->customer_investments()->with('package')->latest()->paginate($request['limit'], ['*'], 'page', $request['offset']);
+        $withdrawals = $request->user()->investment_withdrawals()->latest()->paginate($request['limit'], ['*'], 'page', $request['offset']);
+        $investment_wallet = $request->user()->investment_wallet;
+
         return response()->json([
-            'total_size' => $investments->total(),
-            'limit' => $request['limit'],
-            'offset' => $request['offset'],
-            'investments' => $investments->items()
+            'investments' => [
+                'total_size' => $investments->total(),
+                'limit' => $request['limit'],
+                'offset' => $request['offset'],
+                'investments' => $investments->items()
+            ],
+            'withdrawals' => [
+                'total_size' => $withdrawals->total(),
+                'limit' => $request['limit'],
+                'offset' => $request['offset'],
+                'withdrawals' => $withdrawals->items()
+            ],
+            'investment_wallet' => $investment_wallet
         ]);
     }
 

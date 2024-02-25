@@ -33,4 +33,14 @@ class CustomerInvestment extends Model
 
         return $this->package->daily_profit * $days;
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d H:i:s');
+    }
+
+    public function getRedeemedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d H:i:s');
+    }
 }

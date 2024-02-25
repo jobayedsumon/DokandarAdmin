@@ -343,8 +343,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
                 Route::post('redeem', 'InvestmentController@redeem');
                 Route::post('withdraw', 'InvestmentController@withdraw');
 
-                Route::get('investments', 'InvestmentController@investments');
-                Route::get('withdrawals', 'InvestmentController@withdrawals');
+                Route::get('my-investments', 'InvestmentController@my_investments');
 
                 Route::post('transfer', 'InvestmentController@transfer');
 
