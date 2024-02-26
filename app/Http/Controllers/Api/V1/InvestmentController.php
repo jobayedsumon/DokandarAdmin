@@ -8,6 +8,7 @@ use App\Library\Payer;
 use App\Library\Payment as PaymentInfo;
 use App\Library\Receiver;
 use App\Models\BusinessSetting;
+use App\Models\CustomerInvestment;
 use App\Models\InvestmentPackage;
 use App\Models\InvestmentPayment;
 use App\Models\User;
@@ -143,5 +144,35 @@ class InvestmentController extends Controller
         ];
         return response()->json($data, 200);
 
+    }
+
+    public function my_investment_view($id)
+    {
+        $myInvestment = request()->user()->customer_investments()->find($id);
+        return response()->json($myInvestment);
+    }
+
+    public function redeem(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'investment_id' => 'required|numeric|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        }
+
+        $investment = $request->user()->customer_investments()->find($request->investment_id);
+        if (!$investment) {
+            return response()->json(['errors' => ['message' => 'Investment not found']], 403);
+        }
+        if ($investment->redeemed_at) {
+            return response()->json(['errors' => ['message' => 'Already redeemed']], 403);
+        }
+
+        $investment->redeemed_at = now();
+        $investment->save();
+
+        return response()->json($investment);
     }
 }

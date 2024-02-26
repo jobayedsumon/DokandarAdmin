@@ -344,6 +344,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
                 Route::post('withdraw', 'InvestmentController@withdraw');
 
                 Route::get('my-investments', 'InvestmentController@my_investments');
+                Route::get('my-investment/view/{id}', 'InvestmentController@my_investment_view');
 
                 Route::post('transfer', 'InvestmentController@transfer');
 

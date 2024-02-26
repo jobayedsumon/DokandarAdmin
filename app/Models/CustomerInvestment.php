@@ -41,6 +41,6 @@ class CustomerInvestment extends Model
 
     public function getRedeemedAtAttribute($value)
     {
-        return Carbon::parse($value)->format('Y-m-d H:i:s');
+        return $value ? Carbon::parse($value)->format('Y-m-d H:i:s') : null;
     }
 }
