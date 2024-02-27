@@ -45,7 +45,7 @@ class InvestmentController extends Controller
     public function flexible_packages()
     {
         $module_type = 'investment';
-        $packages = InvestmentPackage::where('type', 'flexible')->paginate();
+        $packages = InvestmentPackage::where('type', 'flexible')->latest()->paginate();
         return view('admin-views.investment.flexible.index', compact('module_type', 'packages'));
     }
 
@@ -132,7 +132,7 @@ class InvestmentController extends Controller
     public function locked_in_packages()
     {
         $module_type = 'investment';
-        $packages = InvestmentPackage::where('type', 'locked-in')->paginate(1);
+        $packages = InvestmentPackage::where('type', 'locked-in')->latest()->paginate();
         return view('admin-views.investment.locked-in.index', compact('module_type', 'packages'));
     }
 
@@ -223,14 +223,14 @@ class InvestmentController extends Controller
     public function customer_investments()
     {
         $module_type = 'investment';
-        $investments = CustomerInvestment::paginate();
+        $investments = CustomerInvestment::latest()->paginate();
         return view('admin-views.investment.customer.investments', compact('module_type', 'investments'));
     }
 
     public function investment_withdrawals()
     {
         $module_type = 'investment';
-        $withdrawals = InvestmentWithdrawal::paginate();
+        $withdrawals = InvestmentWithdrawal::latest()->paginate();
         return view('admin-views.investment.withdrawals', compact('module_type', 'withdrawals'));
     }
 
@@ -246,7 +246,7 @@ class InvestmentController extends Controller
     public function customers_wallet_balance()
     {
         $module_type = 'investment';
-        $customer_data = User::whereHas('customer_investments')->paginate();
+        $customer_data = User::whereHas('customer_investments')->latest()->paginate();
         return view('admin-views.investment.customer.wallet-balance', compact('module_type', 'customer_data'));
     }
 }

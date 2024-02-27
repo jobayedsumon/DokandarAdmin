@@ -175,4 +175,29 @@ class InvestmentController extends Controller
 
         return response()->json($investment);
     }
+
+    public function withdraw(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'withdrawal_amount' => 'required|numeric|min:1',
+            'method_type' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        }
+
+        $customer = User::find($request->user()->id);
+        $investmentWallet = $customer->investment_wallet;
+        if ($investmentWallet->balance < $request->withdrawal_amount) {
+            return response()->json(['errors' => ['message' => 'Insufficient balance']], 403);
+        }
+
+        $withdrawal = $customer->investment_withdrawals()->create([
+            'withdrawal_amount'         => $request->withdrawal_amount,
+            'withdrawal_method_details' => json_encode($request->except(['withdrawal_amount'])),
+        ]);
+
+        return response()->json($withdrawal);
+    }
 }
