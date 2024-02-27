@@ -86,7 +86,7 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="text-center">
-                                            {{$withdrawal->created_at->format('d M, Y')}}
+                                            {{\Carbon\Carbon::parse($withdrawal->created_at)->format('d M, Y')}}
                                         </span>
                                     </td>
                                     <td class="text-center">

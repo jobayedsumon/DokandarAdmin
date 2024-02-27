@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,5 +22,15 @@ class InvestmentWithdrawal extends Model
     public function getMethodDetailsAttribute()
     {
         return json_decode($this->withdrawal_method_details);
+    }
+
+    public function getPaidAtAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format('Y-m-d H:i:s') : null;
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d H:i:s');
     }
 }
