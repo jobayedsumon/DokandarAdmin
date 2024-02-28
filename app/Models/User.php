@@ -132,7 +132,7 @@ class User extends Authenticatable
             'profit'     => $profit,
             'redeemed'   => $redeemed,
             'withdrawal' => $withdrawal,
-            'transfer'   => $transfer,
+            'transfer'   => floatval($transfer),
             'balance'    => $profit + $redeemed - $withdrawal - $transfer,
         ];
     }
