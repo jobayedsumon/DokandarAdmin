@@ -49,7 +49,7 @@
                                     <label class="input-label">Project Image</label>
                                     <center class="py-3 my-auto">
                                         <img class="object-cover" id="viewer" width="400px" height="200px"
-                                             src="{{asset('storage/app/public/investment').'/'.$package->image}}"
+                                             src="{{$package->image}}"
                                              onerror='this.src="{{asset('/assets/admin/img/admin.png')}}"'
                                              alt="delivery-man image"/>
                                     </center>

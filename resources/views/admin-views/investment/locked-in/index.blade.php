@@ -52,7 +52,7 @@
                             @forelse($packages as $package)
                                 <tr>
                                     <td class="text-center">
-                                        <img width="100px" src="{{asset('storage/app/public/investment').'/'.$package->image}}" alt="">
+                                        <img width="100px" src="{{$package->image}}" alt="">
                                     </td>
                                     <td class="text-center">
                                         <span class="text-body mr-3">
