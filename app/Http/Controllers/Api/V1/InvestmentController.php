@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\CentralLogics\CustomerLogic;
 use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Library\Payer;
@@ -199,5 +200,28 @@ class InvestmentController extends Controller
         ]);
 
         return response()->json($withdrawal);
+    }
+
+    public function transfer_to_wallet(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        }
+
+        $customer = User::find($request->user()->id);
+        $investmentWallet = $customer->investment_wallet;
+        if ($investmentWallet->balance < $request->amount) {
+            return response()->json(['errors' => ['message' => 'Insufficient balance']], 403);
+        }
+
+        $transfer = CustomerLogic::create_wallet_transaction($customer->id, $request->amount, 'investment_to_wallet', '');
+        if ( ! $transfer) {
+            return response()->json(['errors' => ['message' => 'Transfer failed']], 403);
+        }
+        return response()->json(['message' => 'Transfer successful']);
     }
 }

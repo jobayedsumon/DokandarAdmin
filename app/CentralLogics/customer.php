@@ -29,7 +29,7 @@ class CustomerLogic
         $credit = 0.0;
         $admin_bonus = 0.0;
 
-        if (in_array($transaction_type, ['add_fund_by_admin', 'add_fund', 'order_refund', 'loyalty_point', 'referrer', 'add_fund_by_transfer'])) {
+        if (in_array($transaction_type, ['add_fund_by_admin', 'add_fund', 'order_refund', 'loyalty_point', 'referrer', 'add_fund_by_transfer', 'investment_to_wallet'])) {
             $credit = $amount;
             if ($transaction_type == 'add_fund') {
                 $admin_bonus = self::calculate_wallet_bonus($amount);

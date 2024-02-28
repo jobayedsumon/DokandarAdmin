@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\CustomerInvestment;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class RedeemLockedInPackageScheduler extends Command
@@ -35,7 +36,7 @@ class RedeemLockedInPackageScheduler extends Command
                 })->get();
 
             foreach ($locked_in_investments as $investment) {
-                $created_at         = $investment->created_at;
+                $created_at         = Carbon::parse($investment->created_at);
                 $duration_in_months = $investment->package->duration_in_months;
                 $redeemable         = $created_at->addMonths($duration_in_months);
                 if ($redeemable->isPast())

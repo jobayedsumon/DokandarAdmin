@@ -87,6 +87,11 @@ class User extends Authenticatable
         return $this->hasMany(InvestmentWithdrawal::class, 'customer_id');
     }
 
+    public function wallet_transactions()
+    {
+        return $this->hasMany(WalletTransaction::class, 'user_id');
+    }
+
     public function total_paid_investment_withdrawals()
     {
         return $this->investment_withdrawals()
@@ -110,16 +115,25 @@ class User extends Authenticatable
             ->sum('profit_earned');
     }
 
+    public function total_investment_to_wallet_transfer()
+    {
+        return $this->wallet_transactions()
+            ->where('transaction_type', 'investment_to_wallet')
+            ->sum('credit');
+    }
+
     public function getInvestmentWalletAttribute(): object
     {
         $profit     = $this->total_investments_profit();
         $redeemed   = $this->total_redeemed_investments();
         $withdrawal = $this->total_paid_investment_withdrawals();
+        $transfer   = $this->total_investment_to_wallet_transfer();
         return (object) [
             'profit'     => $profit,
             'redeemed'   => $redeemed,
             'withdrawal' => $withdrawal,
-            'balance'    => $profit + $redeemed - $withdrawal,
+            'transfer'   => $transfer,
+            'balance'    => $profit + $redeemed - $withdrawal - $transfer,
         ];
     }
 }
