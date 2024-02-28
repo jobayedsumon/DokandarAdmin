@@ -149,21 +149,21 @@
                         <div id="recaptcha_element" class="w-100" data-type="image"></div>
                         <br/>
                     @else
-                        <div class="row p-2" id="reload-captcha">
-                            <div class="col-6 pr-0">
-                                <input type="text" class="form-control form-control-lg border-0" name="custome_recaptcha"
-                                        id="custome_recaptcha" required placeholder="{{\translate('Enter recaptcha value')}}" autocomplete="off" value="{{env('APP_MODE')=='dev'? session('six_captcha'):''}}">
-                            </div>
-                            <div class="col-6 bg-white rounded d-flex">
-                                <img src="<?php echo $custome_recaptcha->inline(); ?>" class="rounded w-100" />
-                                <div class="p-3 pr-0 capcha-spin" onclick="reloadCaptcha()">
-                                    <i class="tio-cached"></i>
-                                </div>
-                                {{-- <a class="" onclick="reloadCaptcha()">
-                                    <i class="tio-edit"></i>
-                                </a> --}}
-                            </div>
-                        </div>
+{{--                        <div class="row p-2" id="reload-captcha">--}}
+{{--                            <div class="col-6 pr-0">--}}
+{{--                                <input type="text" class="form-control form-control-lg border-0" name="custome_recaptcha"--}}
+{{--                                        id="custome_recaptcha" required placeholder="{{\translate('Enter recaptcha value')}}" autocomplete="off" value="{{env('APP_MODE')=='dev'? session('six_captcha'):''}}">--}}
+{{--                            </div>--}}
+{{--                            <div class="col-6 bg-white rounded d-flex">--}}
+{{--                                <img src="<?php echo $custome_recaptcha->inline(); ?>" class="rounded w-100" />--}}
+{{--                                <div class="p-3 pr-0 capcha-spin" onclick="reloadCaptcha()">--}}
+{{--                                    <i class="tio-cached"></i>--}}
+{{--                                </div>--}}
+{{--                                --}}{{-- <a class="" onclick="reloadCaptcha()">--}}
+{{--                                    <i class="tio-edit"></i>--}}
+{{--                                </a> --}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     @endif
 
                     <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3">{{translate('messages.login')}}</button>
