@@ -11,7 +11,7 @@ class InvestmentPackage extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['monthly_profit', 'daily_profit'];
+    protected $appends = ['monthly_profit', 'daily_profit', 'is_invested_by_current_user'];
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
@@ -31,5 +31,15 @@ class InvestmentPackage extends Model
     public function getImageAttribute($value)
     {
         return asset('storage/app/public/investment').'/'.$value;
+    }
+
+    public function investments()
+    {
+        return $this->hasMany(CustomerInvestment::class, 'investment_id');
+    }
+
+    public function getIsInvestedByCurrentUserAttribute()
+    {
+        return $this->investments()->where('customer_id', auth('api')->id())->exists();
     }
 }
