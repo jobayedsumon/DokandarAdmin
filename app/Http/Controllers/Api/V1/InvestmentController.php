@@ -175,7 +175,7 @@ class InvestmentController extends Controller
 
         try
         {
-            $msg = 'Your investment of '.$investment->amount.' ৳ of investment package '.$investment->package->name.' has been redeemed successfully.';
+            $msg = 'Your investment of '.$investment->package->amount.' ৳ of investment package '.$investment->package->name.' has been redeemed successfully.';
             SMS_module::send_custom_sms($request->user()->phone, $msg);
         } catch (\Exception $exception) {
             info($exception->getMessage());
@@ -206,7 +206,7 @@ class InvestmentController extends Controller
             'withdrawal_method_details' => json_encode($request->except(['withdrawal_amount'])),
         ]);
 
-        $msg = 'Your withdrawal request of '.$request->withdrawal_amount.' ৳ has been received successfully. You will be notified once it is processed.';
+        $msg = 'Your withdrawal request of '.$withdrawal->withdrawal_amount.' ৳ has been received successfully. You will be notified once it is processed.';
         SMS_module::send_custom_sms($request->user()->phone, $msg);
 
         return response()->json($withdrawal);

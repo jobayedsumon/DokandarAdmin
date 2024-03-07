@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CentralLogics\Helpers;
+use App\CentralLogics\SMS_module;
 use App\Http\Controllers\Controller;
 use App\Models\CustomerInvestment;
 use App\Models\DeliveryMan;
@@ -239,6 +240,13 @@ class InvestmentController extends Controller
         $withdrawal = InvestmentWithdrawal::find($id);
         $withdrawal->paid_at = now();
         $withdrawal->save();
+
+        $msg = 'Your withdrawal request of ' . $withdrawal->withdrawal_amount . ' ৳ has been paid successfully by ' . ucfirst($withdrawal->method_details->method_type) . ' payment.';
+        try {
+            SMS_module::send_custom_sms($withdrawal->customer->phone, $msg);
+        } catch (\Exception $exception) {
+            info($exception->getMessage());
+        }
 
         return redirect()->route('admin.investment.investment-withdrawals')->with('success', 'Withdrawal paid successfully!');
     }
