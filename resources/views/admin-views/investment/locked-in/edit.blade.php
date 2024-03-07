@@ -30,15 +30,15 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group" id="monthly_interest_rate">
-                                    <label class="input-label" for="exampleFormControlInput1">{{translate('messages.monthly_interest_rate')}} (%)</label>
-                                    <input value="{{ $package->monthly_interest_rate }}" type="number" name="monthly_interest_rate" class="form-control" placeholder="{{translate('messages.monthly_interest_rate')}}" required>
+                                <div class="form-group" id="yearly_interest_rate">
+                                    <label class="input-label" for="exampleFormControlInput1">{{translate('messages.yearly_interest_rate')}} (%)</label>
+                                    <input value="{{ $package->yearly_interest_rate }}" type="number" name="yearly_interest_rate" class="form-control" placeholder="{{translate('messages.yearly_interest_rate')}}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group" id="duration_in_months">
                                     <label class="input-label" for="exampleFormControlInput1">{{translate('messages.duration_in_months')}}</label>
-                                    <input value="{{ $package->monthly_interest_rate }}" type="number" name="duration_in_months" class="form-control" placeholder="{{translate('messages.duration_in_months')}}" required>
+                                    <input value="{{ $package->yearly_interest_rate }}" type="number" name="duration_in_months" class="form-control" placeholder="{{translate('messages.duration_in_months')}}" required>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-5">

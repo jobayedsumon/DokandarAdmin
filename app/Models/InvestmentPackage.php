@@ -11,16 +11,21 @@ class InvestmentPackage extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['monthly_profit', 'daily_profit', 'is_invested_by_current_user'];
+    protected $appends = ['yearly_profit', 'monthly_profit', 'daily_profit', 'is_invested_by_current_user'];
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    public function getYearlyProfitAttribute()
+    {
+        return $this->amount * $this->yearly_interest_rate / 100;
+    }
+
     public function getMonthlyProfitAttribute()
     {
-        return $this->amount * $this->monthly_interest_rate / 100;
+        return $this->yearly_profit / 12;
     }
 
     public function getDailyProfitAttribute()

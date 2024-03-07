@@ -202,4 +202,51 @@ class SMS_module
         }
         return null;
     }
+
+    public static function send_custom_sms($receiver, $msg)
+    {
+        $config = self::get_settings('alphanet_sms');
+        if (isset($config) && $config['status'] == 1) {
+            $response = self::alphanet_custom_sms($receiver, $msg);
+            return $response;
+        }
+
+        return 'not_found';
+    }
+
+    public static function alphanet_custom_sms($receiver, $msg)
+    {
+        $config = self::get_settings('alphanet_sms');
+        $response = 'error';
+        if (isset($config) && $config['status'] == 1) {
+            $api_key = $config['api_key'];
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api.sms.net.bd/sendsms',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('api_key' => $api_key,'msg' => $msg,'to' => $receiver),
+            ));
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+
+            if (!$err) {
+                $response = 'success';
+            } else {
+                $response = 'error';
+            }
+        } elseif (empty($config)) {
+            DB::table('business_settings')->updateOrInsert(['key' => 'alphanet_sms'], [
+                'key' => 'alphanet_sms',
+                'value' => json_encode([
+                    'status' => 0,
+                    'api_key' => 'mpF1FwAgbkTRd2G7B6gNT9bZsZM5KWogqzHjoX7z',
+                ]),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+        return $response;
+    }
 }

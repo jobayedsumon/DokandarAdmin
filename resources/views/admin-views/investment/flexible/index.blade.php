@@ -40,7 +40,7 @@
                                 <th class="border-0">{{translate('Image')}}</th>
                                 <th class="border-0">{{translate('messages.name')}}</th>
                                 <th class="border-0">{{translate('messages.Amount')}}</th>
-                                <th class="border-0">{{translate('messages.Monthly Interest Rate')}}</th>
+                                <th class="border-0">{{translate('messages.Yearly Interest Rate')}}</th>
                                 <th class="border-0">{{translate('messages.Status')}}</th>
                                 <th class="border-0">{{translate('messages.Actions')}}</th>
                             </tr>
@@ -65,7 +65,7 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="text-center">
-                                            {{$package->monthly_interest_rate}}%
+                                            {{$package->yearly_interest_rate}}%
                                         </span>
                                     </td>
                                     <td class="text-center">

@@ -609,9 +609,6 @@ trait  SmsGateway
         return $response;
     }
 
-
-
-
     public static function get_settings($name)
     {
         $data = config_settings($name, 'sms_config');

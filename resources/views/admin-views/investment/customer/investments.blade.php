@@ -38,7 +38,7 @@
                                 <th class="border-0">{{translate('messages.Customer Name')}}</th>
                                 <th class="border-0">{{translate('messages.Investment Package')}}</th>
                                 <th class="border-0">{{translate('messages.Amount')}}</th>
-                                <th class="border-0">{{translate('messages.Monthly Interest Rate')}}</th>
+                                <th class="border-0">{{translate('messages.Yearly Interest Rate')}}</th>
                                 <th class="border-0">{{translate('messages.Duration In Months')}}</th>
                                 <th class="border-0">{{translate('messages.Invested On')}}</th>
                                 <th class="border-0">{{translate('messages.Redeemed On')}}</th>
@@ -74,7 +74,7 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="text-center">
-                                            {{$investment->package->monthly_interest_rate}}%
+                                            {{$investment->package->yearly_interest_rate}}%
                                         </span>
                                     </td>
                                     <td class="text-center">

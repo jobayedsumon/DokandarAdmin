@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\CentralLogics\CustomerLogic;
 use App\CentralLogics\Helpers;
+use App\CentralLogics\SMS_module;
 use App\Http\Controllers\Controller;
 use App\Models\BusinessSetting;
 use App\Models\User;
@@ -137,15 +138,28 @@ class WalletController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'phone'=>'exists:users,phone',
-            'amount'=>'numeric|min:10',
+            'amount'=>'numeric|min:100',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)]);
+            return response()->json(['errors' => Helpers::error_processor($validator)], 400);
         }
 
         $from_user = $request->user();
+
+        if ($from_user->wallet_balance < $request->amount) {
+            return response()->json(['errors'=>[
+                'message'=> 'Insufficient balance'
+            ]], 400);
+        }
+
         $to_user = User::where('phone', $request->phone)->first();
+
+        if ($from_user->id == $to_user->id) {
+            return response()->json(['errors'=>[
+                'message'=> 'You can not transfer fund to yourself'
+            ]], 400);
+        }
 
         $from_reference = $from_user->f_name.' '.$from_user->l_name . ' ('.$from_user->phone.')';
         $to_reference = $to_user->f_name.' '.$to_user->l_name . ' ('.$to_user->phone.')';
@@ -160,7 +174,7 @@ class WalletController extends Controller
                 if (isset($to_user->cm_firebase_token)) {
                     $data = [
                         'title' => 'Fund Transfer',
-                        'description' => 'You have received '.$request->amount.' ৳ from '.$from_user->f_name.' '.$from_user->l_name . ' ('.$from_user->phone.')',
+                        'description' => 'You have received '.$request->amount.' ৳ from '. $from_reference,
                         'order_id' => '',
                         'image' => '',
                         'type' => 'wallet_transaction',
@@ -175,13 +189,19 @@ class WalletController extends Controller
                     ]);
                 }
 
+                $from_sms = 'You have transferred '.$request->amount.' ৳ to ' . $to_reference . '. Your current balance is '.$from_user->wallet_balance ?? 0 .' ৳';
+                $to_sms = 'You have received '.$request->amount.' ৳ from ' . $from_reference . '. Your current balance is '.$to_user->wallet_balance ?? 0 .' ৳';
+
+                SMS_module::send_custom_sms($from_user->phone, $from_sms);
+                SMS_module::send_custom_sms($to_user->phone, $to_sms);
+
                 if(config('mail.status')) {
                     Mail::to($wallet_transaction_from->user->email)->send(new \App\Mail\AddFundToWallet($wallet_transaction_from));
                     Mail::to($wallet_transaction_to->user->email)->send(new \App\Mail\AddFundToWallet($wallet_transaction_to));
                 }
             }catch(\Exception $ex)
             {
-                info($ex);
+                info($ex->getMessage());
             }
 
             return response()->json([

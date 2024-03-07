@@ -18,7 +18,7 @@ class CreateInvestmentPackagesTable extends Migration
             $table->string('name');
             $table->string('type'); // flexible, locked-in
             $table->integer('amount');
-            $table->float('monthly_interest_rate');
+            $table->float('yearly_interest_rate');
             $table->integer('duration_in_months')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamp('created_at')->useCurrent();

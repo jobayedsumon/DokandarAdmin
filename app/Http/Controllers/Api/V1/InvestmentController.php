@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\CentralLogics\CustomerLogic;
 use App\CentralLogics\Helpers;
+use App\CentralLogics\SMS_module;
 use App\Http\Controllers\Controller;
 use App\Library\Payer;
 use App\Library\Payment as PaymentInfo;
@@ -85,9 +86,19 @@ class InvestmentController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
+
         $customer = User::find($request->user()->id);
+
+        if (!isset($customer)) {
+            return response()->json(['errors' => ['message' => 'Customer not found']], 403);
+        }
+
         $investmentPackage = InvestmentPackage::find($request->package_id);
         $investmentPaymentAmount = $investmentPackage->amount;
+
+        if (!isset($investmentPaymentAmount)) {
+            return response()->json(['errors' => ['message' => 'Amount not found']], 403);
+        }
 
         $investmentPayment = new InvestmentPayment();
         $investmentPayment->customer_id = $customer->id;
@@ -96,18 +107,6 @@ class InvestmentController extends Controller
         $investmentPayment->payment_status = 'pending';
         $investmentPayment->payment_method = $request->payment_method;
         $investmentPayment->save();
-
-        if (!isset($customer)) {
-            return response()->json(['errors' => ['message' => 'Customer not found']], 403);
-        }
-
-        if (!isset($investmentPaymentAmount)) {
-            return response()->json(['errors' => ['message' => 'Amount not found']], 403);
-        }
-
-        if (!$request->has('payment_method')) {
-            return response()->json(['errors' => ['message' => 'Payment not found']], 403);
-        }
 
         $payer = new Payer(
             $customer->f_name . ' ' . $customer->l_name ,
@@ -174,6 +173,14 @@ class InvestmentController extends Controller
         $investment->redeemed_at = now();
         $investment->save();
 
+        try
+        {
+            $msg = 'Your investment of '.$investment->amount.' ৳ of investment package '.$investment->package->name.' has been redeemed successfully.';
+            SMS_module::send_custom_sms($request->user()->phone, $msg);
+        } catch (\Exception $exception) {
+            info($exception->getMessage());
+        }
+
         return response()->json($investment);
     }
 
@@ -199,6 +206,9 @@ class InvestmentController extends Controller
             'withdrawal_method_details' => json_encode($request->except(['withdrawal_amount'])),
         ]);
 
+        $msg = 'Your withdrawal request of '.$request->withdrawal_amount.' ৳ has been received successfully. You will be notified once it is processed.';
+        SMS_module::send_custom_sms($request->user()->phone, $msg);
+
         return response()->json($withdrawal);
     }
 
@@ -222,6 +232,10 @@ class InvestmentController extends Controller
         if ( ! $transfer) {
             return response()->json(['errors' => ['message' => 'Transfer failed']], 403);
         }
+
+        $msg = 'Your investment balance of '.$request->amount.' ৳ has been transferred to your D-Wallet successfully.';
+        SMS_module::send_custom_sms($request->user()->phone, $msg);
+
         return response()->json(['message' => 'Transfer successful']);
     }
 }

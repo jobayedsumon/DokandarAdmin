@@ -1,5 +1,6 @@
 <?php
 
+use App\CentralLogics\SMS_module;
 use App\Models\Admin;
 use App\Models\CustomerInvestment;
 use App\Models\InvestmentPayment;
@@ -375,6 +376,9 @@ function wallet_success($data) {
     {
         $mail_status = Helpers::get_mail_status('add_fund_mail_status_user');
         try{
+            $msg = 'You have successfully added '.$data->payment_amount.' to your wallet. Your current balance is '.$wallet_transaction->user->wallet_balance.' ৳';
+            SMS_module::send_custom_sms($wallet_transaction->user->phone, $msg);
+
             if(config('mail.status') && $mail_status == '1') {
                 Mail::to($wallet_transaction->user->email)->send(new \App\Mail\AddFundToWallet($wallet_transaction));
             }
@@ -386,17 +390,28 @@ function wallet_success($data) {
 }
 
 function investment_success($data) {
+    try
+    {
+        DB::beginTransaction();
+        $order = InvestmentPayment::find($data->attribute_id);
+        $order->payment_method=$data->payment_method;
+        // $order->transaction_reference=$data->transaction_ref;
+        $order->payment_status='success';
+        $order->save();
 
-    $order = InvestmentPayment::find($data->attribute_id);
-    $order->payment_method=$data->payment_method;
-    // $order->transaction_reference=$data->transaction_ref;
-    $order->payment_status='success';
-    $order->save();
+        CustomerInvestment::create([
+            'customer_id' => $order->customer_id,
+            'investment_id' => $order->investment_id,
+        ]);
+        DB::commit();
 
-    CustomerInvestment::create([
-        'customer_id' => $order->customer_id,
-        'investment_id' => $order->investment_id,
-    ]);
+        $msg = 'You have successfully invested '.$order->amount.' ৳ on investment package '.$order->package->name;
+        SMS_module::send_custom_sms($order->customer->phone, $msg);
+
+    } catch (Exception $exception) {
+        info($exception->getMessage());
+        DB::rollBack();
+    }
 }
 
 function wallet_failed($data) {
