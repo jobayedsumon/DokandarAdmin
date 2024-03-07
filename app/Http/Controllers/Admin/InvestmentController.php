@@ -122,11 +122,16 @@ class InvestmentController extends Controller
 
     public function flexible_package_delete($id)
     {
-        $package = InvestmentPackage::find($id);
-        if (Storage::disk('public')->exists('investment/' . $package->image)) {
-            Storage::disk('public')->delete('investment/' . $package->image);
+        try {
+            $package = InvestmentPackage::find($id);
+            $image = $package->image;
+            $package->delete();
+            if (Storage::disk('public')->exists('investment/' . $image)) {
+                Storage::disk('public')->delete('investment/' . $image);
+            }
+        } catch (\Exception $exception) {
+            return redirect()->route('admin.investment.flexible')->with('error', 'This package has been invested by some customers!');
         }
-        $package->delete();
         return redirect()->route('admin.investment.flexible')->with('success', 'Package deleted successfully!');
     }
 
@@ -213,11 +218,16 @@ class InvestmentController extends Controller
 
     public function locked_in_package_delete($id)
     {
-        $package = InvestmentPackage::find($id);
-        if (Storage::disk('public')->exists('investment/' . $package->image)) {
-            Storage::disk('public')->delete('investment/' . $package->image);
+        try {
+            $package = InvestmentPackage::find($id);
+            $image = $package->image;
+            $package->delete();
+            if (Storage::disk('public')->exists('investment/' . $image)) {
+                Storage::disk('public')->delete('investment/' . $image);
+            }
+        } catch (\Exception $exception) {
+            return redirect()->route('admin.investment.locked-in')->with('error', 'This package has been invested by some customers!');
         }
-        $package->delete();
         return redirect()->route('admin.investment.locked-in')->with('success', 'Package deleted successfully!');
     }
 

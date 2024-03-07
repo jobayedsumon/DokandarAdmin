@@ -142,7 +142,7 @@ class WalletController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 400);
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
 
         $from_user = $request->user();
@@ -150,7 +150,7 @@ class WalletController extends Controller
         if ($from_user->wallet_balance < $request->amount) {
             return response()->json(['errors'=>[
                 'message'=> 'Insufficient balance'
-            ]], 400);
+            ]], 403);
         }
 
         $to_user = User::where('phone', $request->phone)->first();
@@ -158,7 +158,7 @@ class WalletController extends Controller
         if ($from_user->id == $to_user->id) {
             return response()->json(['errors'=>[
                 'message'=> 'You can not transfer fund to yourself'
-            ]], 400);
+            ]], 403);
         }
 
         $from_reference = $from_user->f_name.' '.$from_user->l_name . ' ('.$from_user->phone.')';
@@ -206,11 +206,11 @@ class WalletController extends Controller
 
             return response()->json([
                 'message' => 'Fund transferred successfully',
-            ], 200);
+            ]);
         }
 
         return response()->json(['errors'=>[
             'message'=> 'Failed to transfer fund'
-        ]], 200);
+        ]], 403);
     }
 }

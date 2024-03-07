@@ -376,7 +376,7 @@ function wallet_success($data) {
     {
         $mail_status = Helpers::get_mail_status('add_fund_mail_status_user');
         try{
-            $msg = 'You have successfully added '.$data->payment_amount.' to your wallet. Your current balance is '.$wallet_transaction->user->wallet_balance.' ৳';
+            $msg = 'You have successfully added '.$data->payment_amount.' ৳ to your wallet. Your current balance is '.$wallet_transaction->user->wallet_balance.' ৳';
             SMS_module::send_custom_sms($wallet_transaction->user->phone, $msg);
 
             if(config('mail.status') && $mail_status == '1') {

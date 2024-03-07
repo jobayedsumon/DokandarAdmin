@@ -84,7 +84,7 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="text-center">
-                                            {{$investment->created_at->format('d M, Y')}}
+                                            {{ $investment->created_at ? \Carbon\Carbon::parse($investment->created_at)->format('d M, Y') : ''}}
                                         </span>
                                     </td>
                                     <td class="text-center">
