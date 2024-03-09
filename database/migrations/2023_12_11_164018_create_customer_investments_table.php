@@ -18,7 +18,6 @@ class CreateCustomerInvestmentsTable extends Migration
 
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('investment_id');
-            $table->unique(['customer_id', 'investment_id']);
 
             $table->timestamp('redeemed_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
