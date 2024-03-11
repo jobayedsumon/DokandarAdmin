@@ -100,6 +100,24 @@ class InvestmentController extends Controller
             return response()->json(['errors' => ['message' => 'Amount not found']], 403);
         }
 
+        if ($request->payment_method === 'investment_balance') {
+            if ($customer->investment_wallet->balance < $investmentPaymentAmount) {
+                return response()->json(['errors' => ['message' => 'Insufficient balance']], 403);
+            }
+            $investmentPayment = new InvestmentPayment();
+            $investmentPayment->customer_id = $customer->id;
+            $investmentPayment->investment_id = $investmentPackage->id;
+            $investmentPayment->amount = $investmentPaymentAmount;
+            $investmentPayment->payment_status = 'success';
+            $investmentPayment->payment_method = $request->payment_method;
+            $investmentPayment->save();
+
+            $data = [
+                'redirect_link' => '',
+            ];
+            return response()->json($data);
+        }
+
         $investmentPayment = new InvestmentPayment();
         $investmentPayment->customer_id = $customer->id;
         $investmentPayment->investment_id = $investmentPackage->id;

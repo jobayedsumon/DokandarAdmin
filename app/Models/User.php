@@ -92,6 +92,11 @@ class User extends Authenticatable
         return $this->hasMany(WalletTransaction::class, 'user_id');
     }
 
+    public function investment_payments()
+    {
+        return $this->hasMany(InvestmentPayment::class, 'customer_id');
+    }
+
     public function total_paid_investment_withdrawals()
     {
         return $this->investment_withdrawals()
@@ -122,18 +127,29 @@ class User extends Authenticatable
             ->sum('credit');
     }
 
+    public function total_investment_payment()
+    {
+        return $this->investment_payments()
+            ->where('payment_method', 'investment_balance')
+            ->where('payment_status', 'success')
+            ->sum('amount');
+    }
+
     public function getInvestmentWalletAttribute(): object
     {
-        $profit     = $this->total_investments_profit();
-        $redeemed   = $this->total_redeemed_investments();
-        $withdrawal = $this->total_paid_investment_withdrawals();
-        $transfer   = $this->total_investment_to_wallet_transfer();
+        $profit             = $this->total_investments_profit();
+        $redeemed           = $this->total_redeemed_investments();
+        $withdrawal         = $this->total_paid_investment_withdrawals();
+        $transfer           = $this->total_investment_to_wallet_transfer();
+        $investment_payment = $this->total_investment_payment();
+
         return (object) [
-            'profit'     => $profit,
-            'redeemed'   => $redeemed,
-            'withdrawal' => $withdrawal,
-            'transfer'   => floatval($transfer),
-            'balance'    => $profit + $redeemed - $withdrawal - $transfer,
+            'profit'             => $profit,
+            'redeemed'           => $redeemed,
+            'withdrawal'         => $withdrawal,
+            'transfer'           => floatval($transfer),
+            'investment_payment' => $investment_payment,
+            'balance'            => $profit + $redeemed - $withdrawal - $transfer - $investment_payment,
         ];
     }
 }
