@@ -148,7 +148,7 @@ class User extends Authenticatable
             'redeemed'           => $redeemed,
             'withdrawal'         => $withdrawal,
             'transfer'           => floatval($transfer),
-            'investment_payment' => $investment_payment,
+            'investment_payment' => floatval($investment_payment),
             'balance'            => $profit + $redeemed - $withdrawal - $transfer - $investment_payment,
         ];
     }
