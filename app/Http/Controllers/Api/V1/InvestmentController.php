@@ -112,6 +112,11 @@ class InvestmentController extends Controller
             $investmentPayment->payment_method = $request->payment_method;
             $investmentPayment->save();
 
+            $customerInvestment = new CustomerInvestment();
+            $customerInvestment->customer_id = $customer->id;
+            $customerInvestment->investment_id = $investmentPackage->id;
+            $customerInvestment->save();
+
             $data = [
                 'redirect_link' => '',
             ];
