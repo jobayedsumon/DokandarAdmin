@@ -84,25 +84,25 @@ class InvestmentController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['errors' => Helpers::error_processor($validator)], 400);
         }
 
         $customer = User::find($request->user()->id);
 
         if (!isset($customer)) {
-            return response()->json(['errors' => ['message' => 'Customer not found']], 403);
+            return response()->json(['errors' => ['message' => 'Customer not found']], 400);
         }
 
         $investmentPackage = InvestmentPackage::find($request->package_id);
         $investmentPaymentAmount = $investmentPackage->amount;
 
         if (!isset($investmentPaymentAmount)) {
-            return response()->json(['errors' => ['message' => 'Amount not found']], 403);
+            return response()->json(['errors' => ['message' => 'Amount not found']], 400);
         }
 
         if ($request->payment_method === 'investment_balance') {
             if ($customer->investment_wallet->balance < $investmentPaymentAmount) {
-                return response()->json(['errors' => ['message' => 'Insufficient balance']], 403);
+                return response()->json(['errors' => ['message' => 'Insufficient balance']], 400);
             }
             $investmentPayment = new InvestmentPayment();
             $investmentPayment->customer_id = $customer->id;

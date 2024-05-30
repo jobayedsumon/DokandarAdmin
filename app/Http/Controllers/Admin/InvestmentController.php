@@ -106,9 +106,7 @@ class InvestmentController extends Controller
         $package = InvestmentPackage::find($id);
 
         if ($request->has('image')) {
-            $image_name = Helpers::update('investment/', $package->image, 'png', $request->file('image'));
-        } else {
-            $image_name = $package->image;
+            $package->image = Helpers::update('investment/', $package->image, 'png', $request->file('image'));
         }
 
         $package->name                  = $request->name;
@@ -116,7 +114,6 @@ class InvestmentController extends Controller
         $package->amount                = $request->amount;
         $package->yearly_interest_rate  = $request->yearly_interest_rate;
         $package->duration_in_months    = $request->duration_in_months;
-        $package->image                 = $image_name;
         $package->about                 = $request->about;
         $package->status                = $request->status;
         $package->save();
@@ -202,9 +199,7 @@ class InvestmentController extends Controller
         $package = InvestmentPackage::find($id);
 
         if ($request->has('image')) {
-            $image_name = Helpers::update('investment/', $package->image, 'png', $request->file('image'));
-        } else {
-            $image_name = $package->image;
+            $package->image = Helpers::update('investment/', $package->image, 'png', $request->file('image'));
         }
 
         $package->name                  = $request->name;
@@ -212,7 +207,6 @@ class InvestmentController extends Controller
         $package->amount                = $request->amount;
         $package->yearly_interest_rate = $request->yearly_interest_rate;
         $package->duration_in_months    = $request->duration_in_months;
-        $package->image                 = $image_name;
         $package->about                 = $request->about;
         $package->status                = $request->status;
         $package->save();
