@@ -117,6 +117,9 @@ class InvestmentController extends Controller
             $customerInvestment->investment_id = $investmentPackage->id;
             $customerInvestment->save();
 
+            $msg = 'You have successfully invested '.$investmentPaymentAmount.' ৳ on investment package '.$investmentPackage->name;
+            SMS_module::send_custom_sms($customer->phone, $msg);
+
             $data = [
                 'redirect_link' => '',
             ];
