@@ -4,6 +4,7 @@ use App\Http\Controllers\AamarpayController;
 use App\Models\ItemTag;
 
 use App\Models\Translation;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaytmController;
 use App\Http\Controllers\LiqPayController;
@@ -206,4 +207,14 @@ Route::group(['prefix' => 'store', 'as' => 'restaurant.'], function () {
 Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
     Route::get('apply', 'DeliveryManController@create')->name('create');
     Route::post('apply', 'DeliveryManController@store')->name('store');
+});
+
+Route::get('/storage-link', function () {
+   Artisan::call('storage:link');
+    return 'Storage link created';
+});
+
+Route::get('/optimize-clear', function () {
+    Artisan::call('optimize:clear');
+    return 'Cache cleared';
 });
