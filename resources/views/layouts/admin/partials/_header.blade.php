@@ -106,7 +106,9 @@
                                 <span>{{ translate('Dispatch')}}</span>
                             </a>
                         </li>
+                    @endif
 
+                    @if(auth('admin')->user()->role_id == 1)
                         <li class="nav-item __nav-item">
                             <a href="{{ route('admin.investment.dashboard')}}" id="tourb-8" class="__nav-link {{ Request::is('admin/investment*') ? 'active' : '' }}">
                                 <img src="{{asset('assets/admin/img/new-img/transaction-and-report.svg')}}" alt="public/img">

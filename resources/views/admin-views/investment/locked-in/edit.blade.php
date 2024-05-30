@@ -38,7 +38,7 @@
                             <div class="col-md-6">
                                 <div class="form-group" id="duration_in_months">
                                     <label class="input-label" for="exampleFormControlInput1">{{translate('messages.duration_in_months')}}</label>
-                                    <input value="{{ $package->yearly_interest_rate }}" type="number" name="duration_in_months" class="form-control" placeholder="{{translate('messages.duration_in_months')}}" required>
+                                    <input value="{{ $package->duration_in_months }}" type="number" name="duration_in_months" class="form-control" placeholder="{{translate('messages.duration_in_months')}}" required>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-5">
@@ -52,7 +52,7 @@
                                     </center>
                                     <div class="custom-file">
                                         <input type="file" name="image" id="customFileEg1" class="custom-file-input"
-                                               accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required>
+                                               accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
                                         <label class="custom-file-label" for="customFileEg1">{{translate('messages.choose_file')}}</label>
                                     </div>
                                 </div>

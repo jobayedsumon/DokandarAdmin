@@ -61,7 +61,8 @@ class InvestmentController extends Controller
         $request->validate([
             'name'                  => 'required',
             'amount'                => 'required',
-            'yearly_interest_rate' => 'required',
+            'yearly_interest_rate'  => 'required',
+            'duration_in_months'    => 'required',
             'status'                => 'required',
         ]);
 
@@ -75,7 +76,8 @@ class InvestmentController extends Controller
         $package->name                  = $request->name;
         $package->type                  = 'flexible';
         $package->amount                = $request->amount;
-        $package->yearly_interest_rate = $request->yearly_interest_rate;
+        $package->yearly_interest_rate  = $request->yearly_interest_rate;
+        $package->duration_in_months    = $request->duration_in_months;
         $package->image                 = $image_name;
         $package->about                 = $request->about;
         $package->status                = $request->status;
@@ -96,7 +98,8 @@ class InvestmentController extends Controller
         $request->validate([
             'name'                  => 'required',
             'amount'                => 'required',
-            'yearly_interest_rate' => 'required',
+            'yearly_interest_rate'  => 'required',
+            'duration_in_months'    => 'required',
             'status'                => 'required',
         ]);
 
@@ -111,7 +114,8 @@ class InvestmentController extends Controller
         $package->name                  = $request->name;
         $package->type                  = 'flexible';
         $package->amount                = $request->amount;
-        $package->yearly_interest_rate = $request->yearly_interest_rate;
+        $package->yearly_interest_rate  = $request->yearly_interest_rate;
+        $package->duration_in_months    = $request->duration_in_months;
         $package->image                 = $image_name;
         $package->about                 = $request->about;
         $package->status                = $request->status;
@@ -153,7 +157,7 @@ class InvestmentController extends Controller
         $request->validate([
             'name'                  => 'required',
             'amount'                => 'required',
-            'yearly_interest_rate' => 'required',
+            'yearly_interest_rate'  => 'required',
             'duration_in_months'    => 'required',
             'status'                => 'required',
         ]);
@@ -168,7 +172,7 @@ class InvestmentController extends Controller
         $package->name                  = $request->name;
         $package->type                  = 'locked-in';
         $package->amount                = $request->amount;
-        $package->yearly_interest_rate = $request->yearly_interest_rate;
+        $package->yearly_interest_rate  = $request->yearly_interest_rate;
         $package->duration_in_months    = $request->duration_in_months;
         $package->image                 = $image_name;
         $package->about                 = $request->about;

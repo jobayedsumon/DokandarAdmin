@@ -36,6 +36,12 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
+                                <div class="form-group" id="duration_in_months">
+                                    <label class="input-label" for="exampleFormControlInput1">{{translate('messages.duration_in_months')}}</label>
+                                    <input type="number" name="duration_in_months" class="form-control" placeholder="{{translate('messages.duration_in_months')}}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group" id="status">
                                     <label class="input-label" for="exampleFormControlInput1">{{translate('messages.status')}}</label>
                                     <select name="status" class="form-control" required>
