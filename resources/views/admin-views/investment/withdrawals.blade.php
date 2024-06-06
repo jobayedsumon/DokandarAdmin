@@ -1,4 +1,4 @@
-@extends('layouts.admin.app')
+@php use App\CentralLogics\Helpers; @endphp@extends('layouts.admin.app')
 
 @section('title',translate('messages.customer_investments'))
 
@@ -17,7 +17,8 @@
                     <div class="card-header py-2 border-0">
                         <div class="search--button-wrapper">
                             <h5 class="card-title">
-                                {{translate('messages.Investment')}} {{translate('messages.withdrawals_requests')}}<span class="badge badge-soft-dark ml-2" id="itemCount">{{count($withdrawals)}}</span>
+                                {{translate('messages.Investment')}} {{translate('messages.withdrawals_requests')}}
+                                <span class="badge badge-soft-dark ml-2" id="itemCount">{{count($withdrawals)}}</span>
                             </h5>
                             <!-- Unfold -->
                             <!-- End Unfold -->
@@ -25,9 +26,7 @@
                     </div>
                     <!-- Table -->
                     <div class="table-responsive datatable-custom">
-                        <table id="columnSearchDatatable"
-                               class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
-                               data-hs-datatables-options='{
+                        <table id="columnSearchDatatable" class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table" data-hs-datatables-options='{
                                  "order": [],
                                  "orderCellsTop": true,
                                  "paging":false
@@ -37,6 +36,7 @@
                                 <th class="border-0">{{translate('SL')}}</th>
                                 <th class="border-0">{{translate('messages.Customer Name')}}</th>
                                 <th class="border-0">{{translate('messages.Withdrawal Amount')}}</th>
+                                <th class="border-0">{{translate('messages.Withdrawal Charge')}}</th>
                                 <th class="border-0">{{translate('messages.Withdrawal Method')}}</th>
                                 <th class="border-0">{{translate('messages.Requested On')}}</th>
                                 <th class="border-0">{{translate('messages.Paid On')}}</th>
@@ -62,12 +62,18 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="mr-3 {{ $withdrawal->customer->investment_wallet->balance < $withdrawal->withdrawal_amount && !$withdrawal->paid_at ? 'text-danger' : '' }}">
-                                            {{\App\CentralLogics\Helpers::format_currency($withdrawal->withdrawal_amount)}}
+                                            {{Helpers::format_currency($withdrawal->withdrawal_amount)}}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="mr-3">
+                                            {{Helpers::format_currency($withdrawal->withdrawal_charge)}}
                                         </span>
                                     </td>
                                     <td class="text-left">
                                         <span class="text-body mr-3">
-                                            Method Type: <span class="text-capitalize">{{ $withdrawal->method_details->method_type }}</span>
+                                            Method Type:
+                                            <span class="text-capitalize">{{ $withdrawal->method_details->method_type }}</span>
                                             <br>
                                             @if($withdrawal->method_details->method_type === 'bank')
                                                 Bank Name: {{ $withdrawal->method_details->bank_name }}
@@ -104,8 +110,7 @@
                                                 <i class="tio-checkmark-circle"></i>
                                                 <span>Pay</span>
                                             </a>
-                                            <form action="{{route('admin.investment.withdrawal-pay',[$withdrawal->id])}}"
-                                                  method="post" id="withdrawal-{{$withdrawal->id}}">
+                                            <form action="{{route('admin.investment.withdrawal-pay',[$withdrawal->id])}}" method="post" id="withdrawal-{{$withdrawal->id}}">
                                                 @csrf
                                             </form>
                                         @endif

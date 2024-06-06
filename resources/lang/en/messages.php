@@ -3631,4 +3631,9 @@
   'withdrawn' => 'Withdrawn',
   'investments' => 'Investments',
   'employee_added_successfully' => 'Employee added successfully',
+  'investment_settings' => 'Investment settings',
+  0 => '0',
+  'investment_withdrawal_charge' => 'Investment withdrawal charge',
+  'investment_referral_bonus' => 'Investment referral bonus',
+  'Withdrawal Charge' => 'Withdrawal Charge',
 );

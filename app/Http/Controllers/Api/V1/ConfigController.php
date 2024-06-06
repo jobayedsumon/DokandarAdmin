@@ -236,6 +236,8 @@ class ConfigController extends Controller
             'disbursement_type' => (string)(isset($settings['disbursement_type']) ? $settings['disbursement_type'] : 'manual'),
             'restaurant_disbursement_waiting_time' => (int)(isset($settings['restaurant_disbursement_waiting_time']) ? $settings['restaurant_disbursement_waiting_time'] : 0),
             'dm_disbursement_waiting_time' => (int)(isset($settings['dm_disbursement_waiting_time']) ? $settings['dm_disbursement_waiting_time'] : 0),
+            'investment_referral_bonus' => (int)($settings['investment_referral_bonus'] ?? 0),
+            'investment_withdrawal_charge' => (int)($settings['investment_withdrawal_charge'] ?? 0),
         ]);
     }
 

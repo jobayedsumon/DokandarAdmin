@@ -108,6 +108,13 @@
                             </span>
                         </a>
                     </li>
+                        <li class="nav-item {{ Request::is("admin/investment/settings") ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.investment.settings') }}" title="{{ translate('messages.investment_settings') }}">
+                                <span class="text-truncate sidebar--badge-container">
+                                    {{translate('messages.investment_settings')}}
+                                </span>
+                            </a>
+                        </li>
                 @endif
                 <!-- End dispatch -->
 

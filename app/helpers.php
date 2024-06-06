@@ -1,13 +1,16 @@
 <?php
 
 use App\CentralLogics\SMS_module;
+use App\Mail\AddFundToWallet;
 use App\Models\Admin;
+use App\Models\BusinessSetting;
 use App\Models\CustomerInvestment;
 use App\Models\InvestmentPayment;
 use App\Models\Order;
 use App\Models\Store;
 use App\Models\AdminWallet;
 use App\Models\DeliveryMan;
+use App\Models\User;
 use App\Models\WalletPayment;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\OrderLogic;
@@ -380,7 +383,7 @@ function wallet_success($data) {
             SMS_module::send_custom_sms($wallet_transaction->user->phone, $msg);
 
             if(config('mail.status') && $mail_status == '1') {
-                Mail::to($wallet_transaction->user->email)->send(new \App\Mail\AddFundToWallet($wallet_transaction));
+                Mail::to($wallet_transaction->user->email)->send(new AddFundToWallet($wallet_transaction));
             }
         }catch(\Exception $ex)
         {
@@ -408,9 +411,35 @@ function investment_success($data) {
         $msg = 'You have successfully invested '.$order->amount.' ৳ on investment package '.$order->package->name;
         SMS_module::send_custom_sms($order->customer->phone, $msg);
 
+        if (CustomerInvestment::where('customer_id', $order->customer_id)->count() == 1) {
+            give_investment_referral_bonus($order);
+        }
+
     } catch (Exception $exception) {
         info($exception->getMessage());
         DB::rollBack();
+    }
+}
+
+function give_investment_referral_bonus($order)
+{
+    $ref_status = BusinessSetting::where('key','ref_earning_status')->first()->value;
+
+    if(isset($order->customer->ref_by) && $order->customer->customer_investments()->count() == 1  && $ref_status == 1){
+
+        $investment_referral_bonus_percentage = (float)BusinessSetting::where('key', 'investment_referral_bonus')->first()->value;
+        $referral_bonus                       = ($order->amount * $investment_referral_bonus_percentage) / 100;
+        $referrer_user                        = User::where('id', $order->customer->ref_by)->first();
+        $refer_wallet_transaction             = CustomerLogic::create_wallet_transaction($referrer_user->id, $referral_bonus, 'referrer', $order->customer->phone);
+        $mail_status                          = Helpers::get_mail_status('add_fund_mail_status_user');
+
+        try{
+            if(config('mail.status') && $mail_status == '1') {
+                Mail::to($referrer_user->email)->send(new AddFundToWallet($refer_wallet_transaction));
+            }
+        } catch(\Exception $ex){
+            info($ex->getMessage());
+        }
     }
 }
 

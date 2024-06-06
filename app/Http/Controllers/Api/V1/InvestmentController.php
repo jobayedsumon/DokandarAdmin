@@ -214,21 +214,27 @@ class InvestmentController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'withdrawal_amount' => 'required|numeric|min:1',
-            'method_type' => 'required',
+            'method_type'       => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
 
-        $customer = User::find($request->user()->id);
-        $investmentWallet = $customer->investment_wallet;
-        if ($investmentWallet->balance < $request->withdrawal_amount) {
+        $customer                     = User::find($request->user()->id);
+        $investmentWallet             = $customer->investment_wallet;
+        $withdrawal_amount            = $request->withdrawal_amount;
+        $withdrawal_charge_percentage = (float)BusinessSetting::where('key', 'investment_withdrawal_charge')->first()->value;
+        $withdrawal_charge            = ($withdrawal_charge_percentage * $withdrawal_amount )/ 100;
+        $total_withdrawal             = $withdrawal_amount + $withdrawal_charge;
+
+        if ($investmentWallet->balance < $total_withdrawal) {
             return response()->json(['errors' => ['message' => 'Insufficient balance']], 403);
         }
 
         $withdrawal = $customer->investment_withdrawals()->create([
-            'withdrawal_amount'         => $request->withdrawal_amount,
+            'withdrawal_amount'         => $withdrawal_amount,
+            'withdrawal_charge'         => $withdrawal_charge,
             'withdrawal_method_details' => json_encode($request->except(['withdrawal_amount'])),
         ]);
 

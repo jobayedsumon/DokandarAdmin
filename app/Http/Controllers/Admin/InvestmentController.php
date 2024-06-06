@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\SMS_module;
 use App\Http\Controllers\Controller;
+use App\Models\BusinessSetting;
 use App\Models\CustomerInvestment;
 use App\Models\DeliveryMan;
 use App\Models\InvestmentPackage;
@@ -264,5 +265,25 @@ class InvestmentController extends Controller
         $module_type = 'investment';
         $customer_data = User::whereHas('customer_investments')->latest()->paginate();
         return view('admin-views.investment.customer.wallet-balance', compact('module_type', 'customer_data'));
+    }
+
+    public function settings_index()
+    {
+        $module_type = 'investment';
+        $settings = BusinessSetting::where('key', 'like', 'investment_%')->get()->toArray();
+        $settings = array_column($settings, 'value', 'key');
+        return view('admin-views.investment.settings', compact('module_type', 'settings'));
+    }
+
+    public function settings_store(Request $request)
+    {
+        $settings = $request->except('_token');
+        foreach ($settings as $key => $value) {
+            BusinessSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+        return redirect()->route('admin.investment.settings')->with('success', 'Settings updated successfully!');
     }
 }

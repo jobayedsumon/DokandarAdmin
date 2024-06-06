@@ -817,6 +817,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::post('investments-withdrawal/{id}', 'InvestmentController@withdrawal_pay')->name('withdrawal-pay');
 
                 Route::get('customers-wallet-balance', 'InvestmentController@customers_wallet_balance')->name('customers-wallet-balance');
+
+                Route::get('settings', 'InvestmentController@settings_index')->name('settings');
+                Route::post('settings', 'InvestmentController@settings_store')->name('settings');
             });
         });
 

@@ -262,21 +262,22 @@ class OrderLogic
                 DB::commit();
 
                 if($order->is_guest  == 0){
-                    $ref_status = BusinessSetting::where('key','ref_earning_status')->first()->value;
-                    if(isset($order->customer->ref_by) && $order->customer->order_count == 0  && $ref_status == 1){
-                        $ref_code_exchange_amt = BusinessSetting::where('key','ref_earning_exchange_rate')->first()->value;
-                        $referar_user=User::where('id',$order->customer->ref_by)->first();
-                        $refer_wallet_transaction = CustomerLogic::create_wallet_transaction($referar_user->id, $ref_code_exchange_amt, 'referrer',$order->customer->phone);
-                        $mail_status = Helpers::get_mail_status('add_fund_mail_status_user');
 
-                        try{
-                            if(config('mail.status') && $mail_status == '1') {
-                                Mail::to($referar_user->email)->send(new \App\Mail\AddFundToWallet($refer_wallet_transaction));
-                                }
-                            } catch(\Exception $ex){
-                                info($ex->getMessage());
-                            }
-                    }
+//                    $ref_status = BusinessSetting::where('key','ref_earning_status')->first()->value;
+//                    if(isset($order->customer->ref_by) && $order->customer->order_count == 0  && $ref_status == 1){
+//                        $ref_code_exchange_amt = BusinessSetting::where('key','ref_earning_exchange_rate')->first()->value;
+//                        $referar_user=User::where('id',$order->customer->ref_by)->first();
+//                        $refer_wallet_transaction = CustomerLogic::create_wallet_transaction($referar_user->id, $ref_code_exchange_amt, 'referrer',$order->customer->phone);
+//                        $mail_status = Helpers::get_mail_status('add_fund_mail_status_user');
+//
+//                        try{
+//                            if(config('mail.status') && $mail_status == '1') {
+//                                Mail::to($referar_user->email)->send(new \App\Mail\AddFundToWallet($refer_wallet_transaction));
+//                                }
+//                            } catch(\Exception $ex){
+//                                info($ex->getMessage());
+//                            }
+//                    }
 
                     if($order->user_id) CustomerLogic::create_loyalty_point_transaction($order->user_id, $order->id, $order->order_amount, 'order_place');
                 }
