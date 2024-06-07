@@ -21,7 +21,7 @@ class RedeemPackageScheduler extends Command
      *
      * @var string
      */
-    protected $description = 'Redeem package after a certain time';
+    protected $description = 'Redeem investment package after their duration in months';
 
     /**
      * Execute the console command.
@@ -35,23 +35,22 @@ class RedeemPackageScheduler extends Command
             foreach ($customer_investments as $investment) {
                 $created_at         = Carbon::parse($investment->created_at);
                 $duration_in_months = $investment->package->duration_in_months;
-                $redeemable         = $created_at->addMonths($duration_in_months);
-                if ($redeemable->isPast())
-                {
+                $redeemable_at      = $created_at->addMonths($duration_in_months);
+
+                if ($redeemable_at->isPast()) {
                     $investment->redeemed_at = now();
                     $investment->save();
-
-                    Log::info('Package redeemed successfully.');
+                    Log::info("Investment Package #$investment->id redeemed successfully.");
+                } else {
+                    Log::info("Investment Package #$investment->id not redeemed.");
                 }
-
-                Log::info('Package not redeemed.');
             }
 
-            Log::info('Package scheduler executed successfully.');
+            $this->line('Investment Package Redeem scheduler executed successfully.');
         }
-        catch (\Exception $e)
+        catch (\Exception $exception)
         {
-            Log::error($e->getMessage());
+            Log::error($exception->getMessage());
         }
     }
 }
