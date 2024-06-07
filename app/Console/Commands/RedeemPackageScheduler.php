@@ -51,6 +51,7 @@ class RedeemPackageScheduler extends Command
         catch (\Exception $exception)
         {
             Log::error($exception->getMessage());
+            $this->error('Investment Package Redeem scheduler failed.');
         }
     }
 }
