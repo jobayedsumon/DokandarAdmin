@@ -22,5 +22,4 @@ deployment:
     - /bin/cp script.sh $DEPLOYPATH
     - /bin/cp server.php $DEPLOYPATH
     - /bin/cp webpack.mix.js $DEPLOYPATH
-    - cd $DEPLOYPATH && /bin/composer install --no-dev
-    - cd $DEPLOYPATH && /bin/php artisan optimize:clear
+    - cd $DEPLOYPATH && composer install --no-dev
