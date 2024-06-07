@@ -46,7 +46,7 @@ class RedeemPackageScheduler extends Command
                 }
             }
 
-            $this->line('Investment Package Redeem scheduler executed successfully.');
+            $this->info('Investment Package Redeem scheduler executed successfully.');
         }
         catch (\Exception $exception)
         {
