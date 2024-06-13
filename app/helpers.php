@@ -436,6 +436,8 @@ function give_investment_referral_bonus($order)
             if(config('mail.status') && $mail_status == '1') {
                 Mail::to($referrer_user->email)->send(new AddFundToWallet($refer_wallet_transaction));
             }
+            $msg = 'You have received '.$referral_bonus.' ৳ as referral bonus for one of your referred user\'s first investment';
+            SMS_module::send_custom_sms($referrer_user->phone, $msg);
         } catch(\Exception $ex){
             info($ex->getMessage());
         }

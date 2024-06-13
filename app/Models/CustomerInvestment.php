@@ -28,7 +28,7 @@ class CustomerInvestment extends Model
 
     public function getProfitEarnedAttribute()
     {
-        $until = Carbon::parse($this->redeemed_at) ?? now();
+        $until = $this->redeemed_at ? Carbon::parse($this->redeemed_at) : now();
         $days  = $until->diffInDays($this->created_at);
 
         return $this->package->daily_profit * $days;
