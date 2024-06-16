@@ -12,6 +12,7 @@ use App\Models\WalletBonus;
 use App\Models\WalletPayment;
 use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -69,13 +70,6 @@ class WalletController extends Controller
         }
         $customer = User::find($request->user()->id);
 
-        $wallet = new WalletPayment();
-        $wallet->user_id = $customer->id;
-        $wallet->amount = $request->amount;
-        $wallet->payment_status = 'pending';
-        $wallet->payment_method = $request->payment_method;
-        $wallet->save();
-
         $wallet_amount = $request->amount;
 
         if (!isset($customer)) {
@@ -89,6 +83,20 @@ class WalletController extends Controller
         if (!$request->has('payment_method')) {
             return response()->json(['errors' => ['message' => 'Payment not found']], 403);
         }
+
+        try
+        {
+            $wallet = new WalletPayment();
+            $wallet->user_id = $customer->id;
+            $wallet->amount = $request->amount;
+            $wallet->payment_status = 'pending';
+            $wallet->payment_method = $request->payment_method;
+            $wallet->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['errors' => ['message' => 'Failed to create wallet payment']], 403);
+        }
+
 
         $payer = new Payer(
             $customer->f_name . ' ' . $customer->l_name ,
