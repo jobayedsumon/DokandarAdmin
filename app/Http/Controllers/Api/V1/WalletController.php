@@ -92,48 +92,48 @@ class WalletController extends Controller
             $wallet->payment_status = 'pending';
             $wallet->payment_method = $request->payment_method;
             $wallet->save();
+
+            $payer = new Payer(
+                $customer->f_name . ' ' . $customer->l_name ,
+                $customer->email,
+                $customer->phone,
+                ''
+            );
+
+            $currency=BusinessSetting::where(['key'=>'currency'])->first()->value;
+            $additional_data = [
+                'business_name' => BusinessSetting::where(['key'=>'business_name'])->first()?->value,
+                'business_logo' => asset('storage/app/public/business') . '/' .BusinessSetting::where(['key' => 'logo'])->first()?->value
+            ];
+            $payment_info = new PaymentInfo(
+                success_hook: 'wallet_success',
+                failure_hook: 'wallet_failed',
+                currency_code: $currency,
+                payment_method: $request->payment_method,
+                payment_platform: $request->payment_platform,
+                payer_id: $customer->id,
+                receiver_id: '100',
+                additional_data: $additional_data,
+                payment_amount: $wallet_amount,
+                external_redirect_link: $request->has('callback')?$request['callback']:session('callback'),
+                attribute: 'wallet_payments',
+                attribute_id: $wallet->id
+            );
+
+            $receiver_info = new Receiver('receiver_name','example.png');
+
+            $redirect_link = Payment::generate_link($payer, $payment_info, $receiver_info);
+
+            $data = [
+                'redirect_link' => $redirect_link,
+            ];
+
+            return response()->json($data, 200);
+
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return response()->json(['errors' => ['message' => 'Failed to create wallet payment']], 403);
+            return response()->json(['errors' => ['message' => 'Failed to pay for wallet add fund']], 403);
         }
-
-
-        $payer = new Payer(
-            $customer->f_name . ' ' . $customer->l_name ,
-            $customer->email,
-            $customer->phone,
-            ''
-        );
-
-        $currency=BusinessSetting::where(['key'=>'currency'])->first()->value;
-        $additional_data = [
-            'business_name' => BusinessSetting::where(['key'=>'business_name'])->first()?->value,
-            'business_logo' => asset('storage/app/public/business') . '/' .BusinessSetting::where(['key' => 'logo'])->first()?->value
-        ];
-        $payment_info = new PaymentInfo(
-            success_hook: 'wallet_success',
-            failure_hook: 'wallet_failed',
-            currency_code: $currency,
-            payment_method: $request->payment_method,
-            payment_platform: $request->payment_platform,
-            payer_id: $customer->id,
-            receiver_id: '100',
-            additional_data: $additional_data,
-            payment_amount: $wallet_amount,
-            external_redirect_link: $request->has('callback')?$request['callback']:session('callback'),
-            attribute: 'wallet_payments',
-            attribute_id: $wallet->id
-        );
-
-        $receiver_info = new Receiver('receiver_name','example.png');
-
-        $redirect_link = Payment::generate_link($payer, $payment_info, $receiver_info);
-
-        $data = [
-            'redirect_link' => $redirect_link,
-        ];
-        return response()->json($data, 200);
-
     }
 
     public function get_bonus()
