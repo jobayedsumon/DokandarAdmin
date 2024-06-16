@@ -1,4 +1,4 @@
-@php use App\CentralLogics\Helpers; @endphp@extends('layouts.admin.app')
+@php use App\CentralLogics\Helpers;use Carbon\Carbon; @endphp@extends('layouts.admin.app')
 
 @section('title',translate('messages.customer_investments'))
 
@@ -47,6 +47,7 @@
 
                             <tbody id="set-rows">
                             @forelse($withdrawals as $withdrawal)
+                                @php $insufficient = $withdrawal->customer->investment_wallet->balance < 0 && !$withdrawal->paid_at; @endphp
                                 <tr>
                                     <td class="text-center">
                                         <span class="mr-3">
@@ -61,7 +62,7 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <span class="mr-3 {{ $withdrawal->customer->investment_wallet->balance < $withdrawal->withdrawal_amount && !$withdrawal->paid_at ? 'text-danger' : '' }}">
+                                        <span class="mr-3 {{ $insufficient ? 'text-danger' : '' }}">
                                             {{Helpers::format_currency($withdrawal->withdrawal_amount)}}
                                         </span>
                                     </td>
@@ -92,21 +93,19 @@
                                     </td>
                                     <td class="text-center">
                                         <span class="text-center">
-                                            {{\Carbon\Carbon::parse($withdrawal->created_at)->format('d M, Y')}}
+                                            {{Carbon::parse($withdrawal->created_at)->format('d M, Y')}}
                                         </span>
                                     </td>
                                     <td class="text-center">
                                         <span class="text-center">
-                                            {{$withdrawal->paid_at ? \Carbon\Carbon::parse($withdrawal->paid_at)->format('d M, Y') : 'Pending'}}
+                                            {{$withdrawal->paid_at ? Carbon::parse($withdrawal->paid_at)->format('d M, Y') : 'Pending'}}
                                         </span>
                                     </td>
                                     <td class="text-center">
                                         @if($withdrawal->paid_at)
                                             <span>Paid</span>
-                                        @elseif($withdrawal->customer->investment_wallet->balance < $withdrawal->withdrawal_amount)
-                                            <span class="text-danger">Insufficient Balance</span>
                                         @else
-                                            <a class="btn btn-success btn-outline-success" href="javascript:" onclick="form_alert('withdrawal-{{$withdrawal->id}}','{{ translate('Want to pay this request ?') }}')" title="{{translate('messages.Mark As Paid')}}">
+                                            <a class="btn {{ $insufficient ? 'btn-danger btn-outline-danger' : 'btn-success btn-outline-success' }}" href="javascript:" onclick="form_alert('withdrawal-{{$withdrawal->id}}','{{ translate('Want to pay this request ?') }}')" title="{{translate('messages.Mark As Paid')}}">
                                                 <i class="tio-checkmark-circle"></i>
                                                 <span>Pay</span>
                                             </a>
