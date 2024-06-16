@@ -3636,4 +3636,5 @@
   'investment_withdrawal_charge' => 'Investment withdrawal charge',
   'investment_referral_bonus' => 'Investment referral bonus',
   'Withdrawal Charge' => 'Withdrawal Charge',
+  'service_not_available_in_this_area' => 'Service not available in this area',
 );
