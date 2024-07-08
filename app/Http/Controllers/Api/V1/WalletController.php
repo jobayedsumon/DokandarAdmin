@@ -112,7 +112,7 @@ class WalletController extends Controller
                 payment_method: $request->payment_method,
                 payment_platform: $request->payment_platform,
                 payer_id: $customer->id,
-                receiver_id: '100',
+                receiver_id: $customer->id,
                 additional_data: $additional_data,
                 payment_amount: $wallet_amount,
                 external_redirect_link: $request->has('callback')?$request['callback']:session('callback'),
@@ -120,7 +120,7 @@ class WalletController extends Controller
                 attribute_id: $wallet->id
             );
 
-            $receiver_info = new Receiver('receiver_name','example.png');
+            $receiver_info = new Receiver($customer->f_name . ' ' . $customer->l_name,'example.png');
 
             $redirect_link = Payment::generate_link($payer, $payment_info, $receiver_info);
 
