@@ -158,6 +158,8 @@ class BkashPaymentController extends Controller
         curl_close($url);
         $obj = json_decode($resultdata);
 
+        info('bkash_callback_response', ['response' => $obj]);
+
         if ($obj->statusCode == '0000') {
 
             $this->payment::where(['id' => $request['payment_id']])->update([

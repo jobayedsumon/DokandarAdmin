@@ -369,12 +369,15 @@ function order_failed($data) {
 }
 
 function wallet_success($data) {
+
     $order = WalletPayment::find($data->attribute_id);
     $order->payment_method=$data->payment_method;
     // $order->transaction_reference=$data->transaction_ref;
     $order->payment_status='success';
     $order->save();
+
     $wallet_transaction = CustomerLogic::create_wallet_transaction($data->payer_id, $data->payment_amount, 'add_fund',$data->payment_method);
+
     if($wallet_transaction)
     {
         $mail_status = Helpers::get_mail_status('add_fund_mail_status_user');
