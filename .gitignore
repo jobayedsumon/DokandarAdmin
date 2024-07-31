@@ -15,4 +15,3 @@ error_log
 /.vscode
 /.idea
 /storage/app/public
-.cpanel.yml
