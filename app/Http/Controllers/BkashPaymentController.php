@@ -97,7 +97,7 @@ class BkashPaymentController extends Controller
         $response = self::getToken();
         $auth = $response['id_token'];
         session()->put('token', $auth);
-        $callbackURL = urlencode(route('bkash.callback', ['payment_id' => $request['payment_id'], 'token' => $auth]));
+        $callbackURL = route('bkash.callback', ['payment_id' => $request['payment_id'], 'token' => $auth]);
 
         $requestbody = array(
             'mode' => '0011',
@@ -144,7 +144,6 @@ class BkashPaymentController extends Controller
 
         $header = array(
             'Content-Type:application/json',
-            'Accept:application/json',
             'Authorization:' . $auth,
             'X-APP-Key:' . $this->app_key
         );
