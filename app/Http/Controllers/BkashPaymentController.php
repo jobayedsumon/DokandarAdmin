@@ -97,15 +97,15 @@ class BkashPaymentController extends Controller
         $response = self::getToken();
         $auth = $response['id_token'];
         session()->put('token', $auth);
-        $callbackURL = route('bkash.callback', ['payment_id' => $request['payment_id'], 'token' => $auth]);
+        $callbackURL = urlencode(route('bkash.callback', ['payment_id' => $request['payment_id'], 'token' => $auth]));
 
         $requestbody = array(
             'mode' => '0011',
             'amount' => (string)round($data->payment_amount, 2),
             'currency' => 'BDT',
             'intent' => 'sale',
-            'payerReference' => $payer->phone,
-            'merchantInvoiceNumber' => 'invoice_' . Str::random('15'),
+            'payerReference' => urlencode($payer->phone),
+            'merchantInvoiceNumber' => 'invoice_' . urlencode(Str::random('15')),
             'callbackURL' => $callbackURL
         );
 
@@ -144,6 +144,7 @@ class BkashPaymentController extends Controller
 
         $header = array(
             'Content-Type:application/json',
+            'Accept:application/json',
             'Authorization:' . $auth,
             'X-APP-Key:' . $this->app_key
         );
@@ -154,6 +155,8 @@ class BkashPaymentController extends Controller
         curl_setopt($url, CURLOPT_POSTFIELDS, $request_body_json);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($url, CURLOPT_SSL_VERIFYHOST, 0);
+
         $resultdata = curl_exec($url);
         curl_close($url);
         $obj = json_decode($resultdata);
@@ -183,7 +186,5 @@ class BkashPaymentController extends Controller
             return $this->payment_response($payment_data,'fail');
         }
     }
-
-
 }
 
