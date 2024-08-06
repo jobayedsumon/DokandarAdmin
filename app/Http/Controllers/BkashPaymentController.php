@@ -104,8 +104,8 @@ class BkashPaymentController extends Controller
             'amount' => (string)round($data->payment_amount, 2),
             'currency' => 'BDT',
             'intent' => 'sale',
-            'payerReference' => urlencode($payer->phone),
-            'merchantInvoiceNumber' => 'invoice_' . urlencode(Str::random('15')),
+            'payerReference' => $payer->phone,
+            'merchantInvoiceNumber' => 'invoice_' . Str::random('15'),
             'callbackURL' => $callbackURL
         );
 
@@ -154,7 +154,6 @@ class BkashPaymentController extends Controller
         curl_setopt($url, CURLOPT_POSTFIELDS, $request_body_json);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        curl_setopt($url, CURLOPT_SSL_VERIFYHOST, 0);
 
         $resultdata = curl_exec($url);
         curl_close($url);
