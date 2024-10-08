@@ -3637,4 +3637,6 @@
   'investment_referral_bonus' => 'Investment referral bonus',
   'Withdrawal Charge' => 'Withdrawal Charge',
   'service_not_available_in_this_area' => 'Service not available in this area',
+  'Cancel The Request' => 'Cancel The Request',
+  'Want to cancel this request ?' => 'Want to cancel this request  ',
 );

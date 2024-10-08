@@ -260,6 +260,17 @@ class InvestmentController extends Controller
         return redirect()->route('admin.investment.investment-withdrawals')->with('success', 'Withdrawal paid successfully!');
     }
 
+    public function withdrawal_cancel($id)
+    {
+        try {
+            InvestmentWithdrawal::find($id)->delete();
+        } catch (\Exception $exception) {
+            info($exception->getMessage());
+        }
+
+        return redirect()->route('admin.investment.investment-withdrawals')->with('success', 'Withdrawal request cancelled!');
+    }
+
     public function customers_wallet_balance()
     {
         $module_type = 'investment';

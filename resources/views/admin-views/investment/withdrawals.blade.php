@@ -105,12 +105,20 @@
                                         @if($withdrawal->paid_at)
                                             <span>Paid</span>
                                         @else
-                                            <a class="btn {{ $insufficient ? 'btn-danger btn-outline-danger' : 'btn-success btn-outline-success' }}" href="javascript:" onclick="form_alert('withdrawal-{{$withdrawal->id}}','{{ translate('Want to pay this request ?') }}')" title="{{translate('messages.Mark As Paid')}}">
+                                            <a class="btn {{ $insufficient ? 'btn-danger btn-outline-danger' : 'btn-success btn-outline-success' }}" href="javascript:" onclick="form_alert('withdrawal-pay-{{$withdrawal->id}}','{{ translate('Want to pay this request ?') }}')" title="{{translate('messages.Mark As Paid')}}">
                                                 <i class="tio-checkmark-circle"></i>
                                                 <span>Pay</span>
                                             </a>
-                                            <form action="{{route('admin.investment.withdrawal-pay',[$withdrawal->id])}}" method="post" id="withdrawal-{{$withdrawal->id}}">
+                                            <a class="btn {{ $insufficient ? 'btn-success btn-outline-success' : 'btn-danger btn-outline-danger' }}" href="javascript:" onclick="form_alert('withdrawal-cancel-{{$withdrawal->id}}','{{ translate('Want to cancel this request ?') }}')" title="{{translate('messages.Cancel The Request')}}">
+                                                <i class="tio-clear-circle"></i>
+                                                <span>Cancel</span>
+                                            </a>
+                                            <form action="{{route('admin.investment.withdrawal-pay',[$withdrawal->id])}}" method="post" id="withdrawal-pay-{{$withdrawal->id}}">
                                                 @csrf
+                                            </form>
+                                            <form action="{{route('admin.investment.withdrawal-cancel',[$withdrawal->id])}}" method="post" id="withdrawal-cancel-{{$withdrawal->id}}">
+                                                @csrf
+                                                @method('delete')
                                             </form>
                                         @endif
                                     </td>

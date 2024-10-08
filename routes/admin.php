@@ -815,6 +815,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('customer-investments', 'InvestmentController@customer_investments')->name('customer-investments');
                 Route::get('investments-withdrawals', 'InvestmentController@investment_withdrawals')->name('investment-withdrawals');
                 Route::post('investments-withdrawal/{id}', 'InvestmentController@withdrawal_pay')->name('withdrawal-pay');
+                Route::delete('investments-withdrawal/{id}', 'InvestmentController@withdrawal_cancel')->name('withdrawal-cancel');
 
                 Route::get('customers-wallet-balance', 'InvestmentController@customers_wallet_balance')->name('customers-wallet-balance');
 
