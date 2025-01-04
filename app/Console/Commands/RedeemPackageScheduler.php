@@ -46,12 +46,14 @@ class RedeemPackageScheduler extends Command
                 }
             }
 
-            $this->info('Investment Package Redeem scheduler executed successfully.');
+            Log::info('Investment Package Redeem scheduler executed successfully.');
         }
         catch (\Exception $exception)
         {
-            Log::error($exception->getMessage());
-            $this->error('Investment Package Redeem scheduler failed.');
+            Log::error('Investment Package Redeem scheduler failed.', [
+                'error'     => $exception->getMessage(),
+                'exception' => $exception
+            ]);
         }
     }
 }
