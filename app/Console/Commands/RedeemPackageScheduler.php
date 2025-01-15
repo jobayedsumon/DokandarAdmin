@@ -52,7 +52,7 @@ class RedeemPackageScheduler extends Command
         {
             Log::error('Investment Package Redeem scheduler failed.', [
                 'error'     => $exception->getMessage(),
-                'exception' => $exception
+                'exception' => $exception->getTrace(),
             ]);
         }
     }
