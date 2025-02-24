@@ -30,6 +30,8 @@ class RedeemPackageScheduler extends Command
     {
         try
         {
+            Log::info('Investment Package Redeem scheduler started.');
+
             $customer_investments = CustomerInvestment::where('redeemed_at', null)->get();
 
             foreach ($customer_investments as $investment) {

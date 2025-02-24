@@ -24,7 +24,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->command('dm:disbursement')->dailyAt('13:57');
         $schedule->command('store:disbursement')->dailyAt('13:57');
         $schedule->command('redeem:package')->dailyAt('00:00');
