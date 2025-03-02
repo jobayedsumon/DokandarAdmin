@@ -24,3 +24,4 @@ deployment:
     - /bin/cp script.sh $DEPLOYPATH
     - /bin/cp server.php $DEPLOYPATH
     - /bin/cp webpack.mix.js $DEPLOYPATH
+    - /opt/alt/php82/usr/bin/php /opt/cpanel/composer/bin/composer install --working-dir=$DEPLOYPATH
