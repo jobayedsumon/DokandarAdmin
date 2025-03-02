@@ -118,9 +118,7 @@ class EasyPaymentController extends Controller
             ->replaceHeaders(['x-hash' => $this->generateHash($postData['merchantTransactionId'])])
             ->post('EPSEngine/InitializeEPS', $postData);
 
-        dd($response['RedirectURL']);
-
-//        return redirect()->away($response['RedirectURL']);
+        return redirect()->away($response['RedirectURL']);
     }
 
     public function success(Request $request): JsonResponse|Redirector|RedirectResponse|Application
