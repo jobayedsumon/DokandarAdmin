@@ -1,9 +1,7 @@
 <?php
 
 use App\Http\Controllers\AamarpayController;
-use App\Models\ItemTag;
-
-use App\Models\Translation;
+use App\Http\Controllers\EasyPaymentController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaytmController;
@@ -97,6 +95,14 @@ if (!$is_published) {
             Route::any('success', [AamarpayController::class, 'success'])->name('success');
             Route::any('fail', [AamarpayController::class, 'fail'])->name('fail');
             Route::any('cancel', [AamarpayController::class, 'cancel'])->name('cancel');
+        });
+
+        //EPS - Easy Payment System
+        Route::group(['prefix' => 'eps', 'as' => 'eps.'], function () {
+            Route::get('pay', [EasyPaymentController::class, 'index'])->name('pay');
+            Route::any('success', [EasyPaymentController::class, 'success'])->name('success');
+            Route::any('fail', [EasyPaymentController::class, 'fail'])->name('fail');
+            Route::any('cancel', [EasyPaymentController::class, 'cancel'])->name('cancel');
         });
 
         //STRIPE

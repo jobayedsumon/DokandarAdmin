@@ -74,6 +74,7 @@ trait Payment
             'cashfree' => 'payment/cashfree/pay',
             'instamojo' => 'payment/instamojo/pay',
             'aamarpay' => 'payment/aamarpay/pay',
+            'eps' => 'payment/eps/pay',
         ];
         if (array_key_exists($payment->payment_method, $routes)) {
             return url("{$routes[$payment->payment_method]}/?payment_id={$payment->id}");

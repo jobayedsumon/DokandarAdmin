@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\CentralLogics\Helpers;
-use App\Library\SslCommerz\SslCommerzNotification;
-use App\Models\BusinessSetting;
-use App\Models\Order;
 use App\Models\PaymentRequest;
-use App\Models\Setting;
 use App\Models\User;
 use App\Traits\Processor;
-use Brian2694\Toastr\Facades\Toastr;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 

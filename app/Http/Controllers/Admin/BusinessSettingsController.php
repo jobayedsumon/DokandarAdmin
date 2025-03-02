@@ -690,7 +690,7 @@ class BusinessSettingsController extends Controller
                 }
             }
         }
-        $data_values = Setting::whereIn('settings_type', ['payment_config'])->whereIn('key_name', ['ssl_commerz','paypal','stripe','razor_pay','senang_pay','paytabs','paystack','paymob_accept','paytm','flutterwave','liqpay','bkash','mercadopago', 'aamarpay'])->get();
+        $data_values = Setting::whereIn('settings_type', ['payment_config'])->whereIn('key_name', ['ssl_commerz','paypal','stripe','razor_pay','senang_pay','paytabs','paystack','paymob_accept','paytm','flutterwave','liqpay','bkash','mercadopago', 'aamarpay', 'eps'])->get();
 
         return view('admin-views.business-settings.payment-index', compact('published_status', 'payment_url','data_values'));
     }
@@ -811,6 +811,35 @@ class BusinessSettingsController extends Controller
                         'status'         => $request['status'],
                         'store_id'       => $request['store_id'],
                         'signature_key' => $request['signature_key'],
+                    ]),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+        elseif ($name == 'eps') {
+            $payment = BusinessSetting::where('key', 'eps')->first();
+            if (isset($payment) == false) {
+                DB::table('business_settings')->insert([
+                    'key'        => 'eps',
+                    'value'      => json_encode([
+                        'status'   => 1,
+                        'storeId'  => '',
+                        'userName' => '',
+                        'password' => '',
+                        'hashKey'  => '',
+                    ]),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            } else {
+                DB::table('business_settings')->where(['key' => 'eps'])->update([
+                    'key'        => 'eps',
+                    'value'      => json_encode([
+                        'status'   => $request['status'],
+                        'storeId'  => $request['storeId'],
+                        'userName' => $request['userName'],
+                        'password' => $request['password'],
+                        'hashKey'  => $request['hashKey'],
                     ]),
                     'updated_at' => now(),
                 ]);
@@ -1031,7 +1060,7 @@ class BusinessSettingsController extends Controller
         $request['status'] = $request->status??0;
 
         $validation = [
-            'gateway' => 'required|in:ssl_commerz,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,liqpay,bkash,mercadopago,aamarpay',
+            'gateway' => 'required|in:ssl_commerz,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,liqpay,bkash,mercadopago,aamarpay,eps',
             'mode' => 'required|in:live,test'
         ];
 
@@ -1048,6 +1077,14 @@ class BusinessSettingsController extends Controller
                 'status' => 'required|in:1,0',
                 'store_id' => 'required_if:status,1',
                 'signature_key' => 'required_if:status,1'
+            ];
+        } elseif ($request['gateway'] == 'eps') {
+            $additional_data = [
+                'status' => 'required|in:1,0',
+                'storeId' => 'required_if:status,1',
+                'userName' => 'required_if:status,1',
+                'password' => 'required_if:status,1',
+                'hashKey' => 'required_if:status,1',
             ];
         }
         elseif ($request['gateway'] == 'paypal') {
