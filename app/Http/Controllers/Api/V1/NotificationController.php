@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\CentralLogics\FCM;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\User;
 use App\Models\UserNotification;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\CentralLogics\Helpers;
 
 class NotificationController extends Controller
 {
     public function get_notifications(Request $request){
-        
+
         if (!$request->hasHeader('zoneId')) {
             $errors = [];
             array_push($errors, ['code' => 'zoneId', 'message' => 'Zone id is required!']);
@@ -32,6 +34,21 @@ class NotificationController extends Controller
         } catch (\Exception $e) {
             return response()->json([], 200);
         }
+    }
+
+    public function push_notification(Request $request): JsonResponse
+    {
+        $requestData = $request->all();
+        $user        = User::find($requestData['userId']);
+        $fcmToken    = $user ? $user->cm_firebase_token : '';
+
+        if ($fcmToken) {
+            if (FCM::sendMessage($fcmToken, $requestData['title'], $requestData['body'], $requestData['data'] ?? [])) {
+                return response()->json(['message' => 'Notification sent successfully']);
+            }
+        }
+
+        return response()->json(['errors' => ['message' => 'Notification sending failed']], 403);
     }
 
 }

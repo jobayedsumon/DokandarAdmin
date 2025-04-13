@@ -15,3 +15,4 @@ error_log
 /.vscode
 /.idea
 /storage/app/public
+/storage/google-service-account.json

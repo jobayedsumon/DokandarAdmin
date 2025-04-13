@@ -3639,4 +3639,12 @@
   'service_not_available_in_this_area' => 'Service not available in this area',
   'Cancel The Request' => 'Cancel The Request',
   'Want to cancel this request ?' => 'Want to cancel this request  ',
+  'searching for deliverymen' => 'Searching for deliverymen',
+  'item on the way' => 'Item on the way',
+  'Digital Goods' => 'Digital Goods',
+  'eps' => 'Eps',
+  'you_want_to_unblock_this_customer' => 'You want to unblock this customer',
+  'your_account_has_been_blocked' => 'Your account has been blocked',
+  'suspended' => 'Suspended',
+  'your_account_is_blocked' => 'Your account is blocked',
 );

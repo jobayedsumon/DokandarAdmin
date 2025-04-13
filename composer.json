@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "8.2",
+        "php": "8.2.*",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-simplexml": "*",
@@ -14,6 +14,7 @@
         "doctrine/dbal": "^3.3",
         "firebase/php-jwt": "^6.4",
         "fruitcake/laravel-cors": "dev-develop",
+        "google/apiclient": "^2.15",
         "gregwar/captcha": "^1.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",

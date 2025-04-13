@@ -28,6 +28,13 @@ use App\Http\Controllers\SslCommerzPaymentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/fcm', function () {
+    \App\CentralLogics\FCM::sendMessage(
+        'fN7TptTuRgGYt8W6kFvFP3:APA91bFSztZik12wSaIDw5uagq05MiwJxLOOocrFvrZ3t8mkMoHSwHKtTV807tm1PYDbO-Izvyj_0fVAgBpoDPPK6-sm8uHSQcN9H9FQKS-8wJjK8QykUl4',
+        'Hello', 'World');
+});
+
+
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('lang/{locale}', 'HomeController@lang')->name('lang');

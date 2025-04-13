@@ -106,7 +106,7 @@ class CustomerController extends Controller
         $customer = User::find($request->id);
 
         $orders = Order::latest()->where(['user_id' => $request->id])->Notpos()->get();
-        
+
         $data = [
             'orders'=>$orders,
             'customer_id'=>$customer->id,
@@ -114,7 +114,7 @@ class CustomerController extends Controller
             'customer_phone'=>$customer->phone,
             'customer_email'=>$customer->email,
         ];
-        
+
         if ($request->type == 'excel') {
             return Excel::download(new CustomerOrderExport($data), 'CustomerOrders.xlsx');
         } else if ($request->type == 'csv') {
@@ -133,7 +133,7 @@ class CustomerController extends Controller
         $data = [
             'customers'=>$customers
         ];
-        
+
         if ($request->type == 'excel') {
             return Excel::download(new SubscriberListExport($data), 'Subscribers.xlsx');
         } else if ($request->type == 'csv') {
@@ -253,7 +253,7 @@ class CustomerController extends Controller
             'search'=>$request->search??null,
 
         ];
-        
+
         if ($request->type == 'excel') {
             return Excel::download(new CustomerListExport($data), 'Customers.xlsx');
         } else if ($request->type == 'csv') {
