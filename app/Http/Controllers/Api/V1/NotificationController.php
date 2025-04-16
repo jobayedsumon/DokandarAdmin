@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\CentralLogics\FCM;
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryMan;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserNotification;
+use App\Models\Vendor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -39,8 +41,16 @@ class NotificationController extends Controller
     public function push_notification(Request $request): JsonResponse
     {
         $requestData = $request->all();
-        $user        = User::find($requestData['userId']);
-        $fcmToken    = $user ? $user->cm_firebase_token : '';
+
+        $user = match ($requestData['userType'])
+        {
+            'customer'    => User::find($requestData['userId']),
+            'vendor'      => Vendor::find($requestData['userId']),
+            'deliveryman' => DeliveryMan::find($requestData['userId']),
+            default       => null,
+        };
+
+        $fcmToken = $user ? $user->cm_firebase_token : '';
 
         if ($fcmToken) {
             if (FCM::sendMessage($fcmToken, $requestData['title'], $requestData['body'], $requestData['data'] ?? [])) {

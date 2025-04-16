@@ -3647,4 +3647,5 @@
   'your_account_has_been_blocked' => 'Your account has been blocked',
   'suspended' => 'Suspended',
   'your_account_is_blocked' => 'Your account is blocked',
+  'store_is_closed_at_order_time' => 'Store is closed at order time',
 );
