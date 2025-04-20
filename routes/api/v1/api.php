@@ -350,8 +350,6 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
 
             });
 
-            Route::post('push-notification', 'NotificationController@push_notification');
-
             // Route::group(['prefix'=>'cart'], function() {
             //     Route::get('list', 'CartController@get_carts');
             //     Route::post('add', 'CartController@add_to_cart');
@@ -470,6 +468,9 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
     });
     Route::get('vehicle/extra_charge', 'ConfigController@extra_charge');
     Route::get('get-vehicles', 'ConfigController@get_vehicles');
+
+    Route::post('push-notification', 'NotificationController@push_notification');
+
 });
 
 WebSocketsRouter::webSocket('/delivery-man/live-location', DMLocationSocketHandler::class);

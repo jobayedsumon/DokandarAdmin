@@ -8,7 +8,7 @@ use function Laravel\Prompts\error;
 
 class FCM
 {
-    public static function sendMessage(string $fcmToken, string $title = '', string $body = '', array $data = []): bool
+    public static function sendMessage(string $fcmToken, array $data): bool
     {
         $response = null;
 
@@ -25,14 +25,35 @@ class FCM
             $message = [
                 'token' => $fcmToken,
                 'notification' => [
-                    'title' => $title,
-                    'body'  => $body,
+                    'title'              => $data['title'] ?? '',
+                    'body'               => $data['body'] ?? $data['description'] ?? '',
+                    'image'              => $data['image'] ?? '',
+                ],
+                'data' => [
+                    'title'              => $data['title'] ?? '',
+                    'body'               => $data['body'] ?? $data['description'] ?? '',
+                    'image'              => $data['image'] ?? '',
+                    'order_id'           => isset($data['order_id']) ? "{$data['order_id']}" : '',
+                    'title_loc_key'      => $data['title_loc_key'] ?? '',
+                    'body_loc_key'       => $data['body_loc_key'] ?? '',
+                    'type'               => $data['type'] ?? '',
+                    'conversation_id'    => isset($data['conversation_id']) ? "{$data['conversation_id']}" : '',
+                    'sender_type'        => $data['sender_type'] ?? '',
+                    'module_id'          => isset($data['module_id']) ? "{$data['module_id']}" : '',
+                    'order_type'         => $data['order_type'] ?? '',
+                    'is_read'            => '0',
+                    'icon'               => $data['icon'] ?? '',
+                    'sound'              => $data['sound'] ?? '',
+                    'android_channel_id' => isset($data['android_channel_id']) ? "{$data['android_channel_id']}" : '',
+                    'click_action'       => $data['click_action'] ?? '',
+                    'token'              => $data['token'] ?? '',
+                    'channel'            => $data['channel'] ?? '',
+                    'callerId'           => isset($data['callerId']) ? "{$data['callerId']}" : '',
+                    'callerType'         => $data['callerType'] ?? '',
+                    'callerName'         => $data['callerName'] ?? '',
+                    'callerImage'        => $data['callerImage'] ?? '',
                 ],
             ];
-
-            if (!empty($data)) {
-                $message['data'] = $data;
-            }
 
             $ch = curl_init();
 

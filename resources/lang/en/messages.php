@@ -3648,4 +3648,12 @@
   'suspended' => 'Suspended',
   'your_account_is_blocked' => 'Your account is blocked',
   'store_is_closed_at_order_time' => 'Store is closed at order time',
+  'select_dm_type' => 'Select dm type',
+  'select_a_vehicle' => 'Select a vehicle',
+  'order_note' => 'Order note',
+  'location_not_found' => 'Location not found',
+  'receiver_info' => 'Receiver info',
+  'distance' => 'Distance',
+  'order_already_assign_to_this_deliveryman' => 'Order already assign to this deliveryman',
+  'you_are_unassigned_from_a_order' => 'You are unassigned from a order',
 );

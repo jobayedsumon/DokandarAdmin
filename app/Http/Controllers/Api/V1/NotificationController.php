@@ -42,18 +42,16 @@ class NotificationController extends Controller
     {
         $requestData = $request->all();
 
-        $user = match ($requestData['userType'])
+        $fcmToken = match ($requestData['userType'])
         {
-            'customer'    => User::find($requestData['userId']),
-            'vendor'      => Vendor::find($requestData['userId']),
-            'deliveryman' => DeliveryMan::find($requestData['userId']),
+            'customer'    => User::find($requestData['userId'])->cm_firebase_token,
+            'vendor'      => Vendor::find($requestData['userId'])->firebase_token,
+            'deliveryman' => DeliveryMan::find($requestData['userId'])->fcm_token,
             default       => null,
         };
 
-        $fcmToken = $user ? $user->cm_firebase_token : '';
-
         if ($fcmToken) {
-            if (FCM::sendMessage($fcmToken, $requestData['title'], $requestData['body'], $requestData['data'] ?? [])) {
+            if (FCM::sendMessage($fcmToken, $requestData)) {
                 return response()->json(['message' => 'Notification sent successfully']);
             }
         }

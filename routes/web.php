@@ -28,10 +28,25 @@ use App\Http\Controllers\SslCommerzPaymentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/fcm', function () {
-    \App\CentralLogics\FCM::sendMessage(
-        'fN7TptTuRgGYt8W6kFvFP3:APA91bFSztZik12wSaIDw5uagq05MiwJxLOOocrFvrZ3t8mkMoHSwHKtTV807tm1PYDbO-Izvyj_0fVAgBpoDPPK6-sm8uHSQcN9H9FQKS-8wJjK8QykUl4',
-        'Hello', 'World');
+    $fcm_token = 'efiX_zHoQCSXG_CnwyX-Rg:APA91bH6pE_inLYxehd3Ak1lJ5gGzLVm8JxRY1DmOKBbBpqbbqTd122fvCs1OPFaaQ3rmsFkiJNOjn9lMFuSPjNpGyt5itPWgqohmkgmJyehx9fiKFroqGo'; // Replace this with an actual FCM token from a device
+
+    $data = [
+        'title' => 'Order Update',
+        'description' => 'Your order #12345 has been dispatched.',
+        'image' => 'https://i.pravatar.cc/300',
+        'order_id' => 12345,
+        'type' => 'order_status_update',
+        'conversation_id' => 112,
+        'sender_type' => 'admin',
+        'module_id' => 123,
+        'order_type' => 'delivery',
+    ];
+
+    $result = \App\CentralLogics\Helpers::send_push_notif_to_device($fcm_token, $data);
+
+    dd($result); // or log it to storage/logs/laravel.log
 });
 
 
