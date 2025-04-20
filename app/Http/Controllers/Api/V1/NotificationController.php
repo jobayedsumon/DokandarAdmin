@@ -51,7 +51,7 @@ class NotificationController extends Controller
         };
 
         if ($fcmToken) {
-            if (FCM::sendMessage($fcmToken, $requestData)) {
+            if (FCM::sendMessage($requestData, $fcmToken)) {
                 return response()->json(['message' => 'Notification sent successfully']);
             }
         }

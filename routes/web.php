@@ -44,7 +44,7 @@ Route::get('/fcm', function () {
         'order_type' => 'delivery',
     ];
 
-    $result = \App\CentralLogics\Helpers::send_push_notif_to_device($fcm_token, $data);
+    $result = \App\CentralLogics\Helpers::send_push_notif_to_topic($data, 'admin_message', 'order_request', url('/').'/admin/order/list/all');
 
     dd($result); // or log it to storage/logs/laravel.log
 });

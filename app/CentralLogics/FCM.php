@@ -8,7 +8,7 @@ use function Laravel\Prompts\error;
 
 class FCM
 {
-    public static function sendMessage(string $fcmToken, array $data): bool
+    public static function sendMessage(array $data, string $fcmToken = null, string $topic = null): bool
     {
         $response = null;
 
@@ -23,7 +23,6 @@ class FCM
             ];
 
             $message = [
-                'token' => $fcmToken,
                 'notification' => [
                     'title'              => $data['title'] ?? '',
                     'body'               => $data['body'] ?? $data['description'] ?? '',
@@ -41,11 +40,11 @@ class FCM
                     'sender_type'        => $data['sender_type'] ?? '',
                     'module_id'          => isset($data['module_id']) ? "{$data['module_id']}" : '',
                     'order_type'         => $data['order_type'] ?? '',
+                    'zone_id'            => isset($data['zone_id']) ? "{$data['zone_id']}" : '',
                     'is_read'            => '0',
-                    'icon'               => $data['icon'] ?? '',
-                    'sound'              => $data['sound'] ?? '',
-                    'android_channel_id' => isset($data['android_channel_id']) ? "{$data['android_channel_id']}" : '',
-                    'click_action'       => $data['click_action'] ?? '',
+                    'icon'               => $data['icon'] ?? 'new',
+                    'sound'              => $data['sound'] ?? 'notification.wav',
+                    'android_channel_id' => isset($data['android_channel_id']) ? "{$data['android_channel_id']}" : 'dokandar',
                     'token'              => $data['token'] ?? '',
                     'channel'            => $data['channel'] ?? '',
                     'callerId'           => isset($data['callerId']) ? "{$data['callerId']}" : '',
@@ -54,6 +53,18 @@ class FCM
                     'callerImage'        => $data['callerImage'] ?? '',
                 ],
             ];
+
+            if (isset($data['click_action'])) {
+                $message['data']['notification'] = $data['click_action'];
+            }
+
+            if ($fcmToken) {
+                $message['token'] = $fcmToken;
+            }
+
+            if ($topic) {
+                $message['topic'] = $topic;
+            }
 
             $ch = curl_init();
 
