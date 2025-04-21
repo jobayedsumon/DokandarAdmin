@@ -4,7 +4,6 @@ namespace App\CentralLogics;
 
 use Google\Client;
 use Google\Exception;
-use function Laravel\Prompts\error;
 
 class FCM
 {

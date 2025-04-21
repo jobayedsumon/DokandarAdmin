@@ -40,18 +40,18 @@ class NotificationController extends Controller
 
     public function push_notification(Request $request): JsonResponse
     {
-        $requestData = $request->all();
+        $data = $request->all();
 
-        $fcmToken = match ($requestData['userType'])
+        $fcmToken = match ($data['userType'])
         {
-            'customer'    => User::find($requestData['userId'])->cm_firebase_token,
-            'vendor'      => Vendor::find($requestData['userId'])->firebase_token,
-            'deliveryman' => DeliveryMan::find($requestData['userId'])->fcm_token,
+            'customer'    => User::find($data['userId'])->cm_firebase_token,
+            'vendor'      => Vendor::find($data['userId'])->firebase_token,
+            'deliveryman' => DeliveryMan::find($data['userId'])->fcm_token,
             default       => null,
         };
 
         if ($fcmToken) {
-            if (FCM::sendMessage($requestData, $fcmToken)) {
+            if (FCM::sendMessage($data['notification'], $fcmToken)) {
                 return response()->json(['message' => 'Notification sent successfully']);
             }
         }
