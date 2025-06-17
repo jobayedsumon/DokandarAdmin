@@ -16,6 +16,10 @@ class CustomerInvestment extends Model
 
     protected $appends = ['profit_earned'];
 
+    protected $casts = [
+        'customer_id' => 'integer',
+    ];
+
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');

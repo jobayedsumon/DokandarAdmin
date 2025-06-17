@@ -14,6 +14,7 @@ class InvestmentPackage extends Model
     protected $appends = ['yearly_profit', 'monthly_profit', 'daily_profit', 'is_invested_by_current_user'];
 
     protected $casts = [
+        'amount'               => 'integer',
         'created_at'           => 'datetime:Y-m-d H:i:s',
         'updated_at'           => 'datetime:Y-m-d H:i:s',
         'yearly_interest_rate' => 'float',
