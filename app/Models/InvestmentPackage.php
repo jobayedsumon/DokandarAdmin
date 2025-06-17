@@ -18,6 +18,7 @@ class InvestmentPackage extends Model
         'created_at'           => 'datetime:Y-m-d H:i:s',
         'updated_at'           => 'datetime:Y-m-d H:i:s',
         'yearly_interest_rate' => 'float',
+        'duration_in_months'   => 'integer'
     ];
 
     public function getYearlyProfitAttribute()

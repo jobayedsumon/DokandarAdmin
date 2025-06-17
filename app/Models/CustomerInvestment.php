@@ -18,6 +18,7 @@ class CustomerInvestment extends Model
 
     protected $casts = [
         'customer_id' => 'integer',
+        'investment_id' => 'integer',
     ];
 
     public function customer()
