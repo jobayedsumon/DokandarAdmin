@@ -16,6 +16,7 @@ class InvestmentWithdrawal extends Model
 
     protected $casts = [
       'customer_id' => 'integer',
+      'withdrawal_amount' => 'float',
     ];
 
     public function customer()
