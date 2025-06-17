@@ -14,6 +14,10 @@ class InvestmentWithdrawal extends Model
 
     protected $appends = ['method_details'];
 
+    protected $casts = [
+      'customer_id' => 'integer',
+    ];
+
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');
