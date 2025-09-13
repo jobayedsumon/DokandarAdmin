@@ -17,10 +17,10 @@ class AdminSeeder extends Seeder
     {
         DB::table('admins')->insert([
             'id' => 1,
-            'f_name' => 'Master Admin',
-            'l_name' => 'Khandakar',
-            'phone' => '01759412381',
-            'email' => 'admin@admin.com',
+            'f_name' => 'Master',
+            'l_name' => 'Admin',
+            'phone' => '',
+            'email' => 'admin@dokandar.xyz',
             'image' => 'def.png',
             'password' => bcrypt(12345678),
             'remember_token' =>Str::random(10),
