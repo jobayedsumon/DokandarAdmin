@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\Setting;
 use App\Models\Currency;
@@ -690,7 +689,10 @@ class BusinessSettingsController extends Controller
                 }
             }
         }
-        $data_values = Setting::whereIn('settings_type', ['payment_config'])->whereIn('key_name', ['ssl_commerz','paypal','stripe','razor_pay','senang_pay','paytabs','paystack','paymob_accept','paytm','flutterwave','liqpay','bkash','mercadopago', 'aamarpay', 'eps'])->get();
+        $data_values = Setting::whereIn('settings_type', ['payment_config'])->whereIn('key_name', [
+            'ssl_commerz','paypal','stripe','razor_pay','senang_pay','paytabs','paystack','paymob_accept','paytm','flutterwave','liqpay','bkash','mercadopago',
+            'aamarpay', 'eps', 'paystation',
+        ])->get();
 
         return view('admin-views.business-settings.payment-index', compact('published_status', 'payment_url','data_values'));
     }
@@ -840,6 +842,31 @@ class BusinessSettingsController extends Controller
                         'userName' => $request['userName'],
                         'password' => $request['password'],
                         'hashKey'  => $request['hashKey'],
+                    ]),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+        elseif ($name == 'paystation') {
+            $payment = BusinessSetting::where('key', 'paystation')->first();
+            if (isset($payment) == false) {
+                DB::table('business_settings')->insert([
+                    'key'        => 'paystation',
+                    'value'      => json_encode([
+                        'status'   => 1,
+                        'storeId'  => '',
+                        'password' => '',
+                    ]),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            } else {
+                DB::table('business_settings')->where(['key' => 'paystation'])->update([
+                    'key'        => 'paystation',
+                    'value'      => json_encode([
+                        'status'   => $request['status'],
+                        'storeId'  => $request['storeId'],
+                        'password' => $request['password'],
                     ]),
                     'updated_at' => now(),
                 ]);
@@ -1060,7 +1087,7 @@ class BusinessSettingsController extends Controller
         $request['status'] = $request->status??0;
 
         $validation = [
-            'gateway' => 'required|in:ssl_commerz,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,liqpay,bkash,mercadopago,aamarpay,eps',
+            'gateway' => 'required|in:ssl_commerz,paypal,stripe,razor_pay,senang_pay,paytabs,paystack,paymob_accept,paytm,flutterwave,liqpay,bkash,mercadopago,aamarpay,eps,paystation',
             'mode' => 'required|in:live,test'
         ];
 
@@ -1086,8 +1113,13 @@ class BusinessSettingsController extends Controller
                 'password' => 'required_if:status,1',
                 'hashKey' => 'required_if:status,1',
             ];
-        }
-        elseif ($request['gateway'] == 'paypal') {
+        } elseif ($request['gateway'] == 'paystation') {
+            $additional_data = [
+                'status' => 'required|in:1,0',
+                'storeId' => 'required_if:status,1',
+                'password' => 'required_if:status,1',
+            ];
+        } elseif ($request['gateway'] == 'paypal') {
             $additional_data = [
                 'status' => 'required|in:1,0',
                 'client_id' => 'required_if:status,1',

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AamarpayController;
 use App\Http\Controllers\EasyPaymentController;
+use App\Http\Controllers\PayStationController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaytmController;
@@ -125,6 +126,12 @@ if (!$is_published) {
             Route::any('success', [EasyPaymentController::class, 'success'])->name('success');
             Route::any('fail', [EasyPaymentController::class, 'fail'])->name('fail');
             Route::any('cancel', [EasyPaymentController::class, 'cancel'])->name('cancel');
+        });
+
+        //PAYSTATION
+        Route::group(['prefix' => 'paystation', 'as' => 'paystation.'], function () {
+            Route::get('pay', [PayStationController::class, 'index'])->name('pay');
+            Route::any('callback', [PayStationController::class, 'callback'])->name('callback');
         });
 
         //STRIPE
