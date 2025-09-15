@@ -79,7 +79,7 @@ class PayStationController extends Controller
             'cust_phone' => $payer_information->phone ?: '01688007454',
             'cust_email' => $payer_information->email ?: 'admin@dokandar.online',
             'cust_address' => $payer_information->address ?: 'Savar',
-            'callback_url' => route('paystation.callback', ['payment_id' => $data['id']]),
+            'callback_url' => urlencode(route('paystation.callback', ['payment_id' => $data['id']])),
             'checkout_items' => '',
             'merchantId' => $this->storeId,
             'password' => $this->password,
