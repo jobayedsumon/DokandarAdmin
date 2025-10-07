@@ -80,7 +80,7 @@ class AamarpayController extends Controller
             'success_url' => route('aamarpay.success', ['payment_id' => $data['id']]), //your success route
             'fail_url' => route('aamarpay.fail', ['payment_id' => $data['id']]), //your fail route
             'cancel_url' => route('aamarpay.cancel', ['payment_id' => $data['id']]), //your cancel url
-            'opt_a' => 'A',  //optional paramter
+            'opt_a' => $data['id'],
             'opt_b' => 'B',
             'opt_c' => 'C',
             'opt_d' => 'D',
@@ -121,25 +121,31 @@ class AamarpayController extends Controller
 
     public function success(Request $request): JsonResponse|Redirector|RedirectResponse|Application
     {
+        $payment_id = $request->input('payment_id') ?: $request->input('opt_a');
+
         if ($request->input('pay_status') == 'Successful') {
 
-            $this->payment::where(['id' => $request['payment_id']])->update([
+            $this->payment::where(['id' => $payment_id])->update([
                 'payment_method' => 'aamarpay',
                 'is_paid' => 1,
                 'transaction_id' => $request->input('mer_txnid')
             ]);
 
-            $data = $this->payment::where(['id' => $request['payment_id']])->first();
+            $data = $this->payment::where(['id' => $payment_id])->first();
 
             if (isset($data) && function_exists($data->success_hook)) {
                 call_user_func($data->success_hook, $data);
             }
+
             return $this->payment_response($data, 'success');
         }
-        $payment_data = $this->payment::where(['id' => $request['payment_id']])->first();
+
+        $payment_data = $this->payment::where(['id' => $payment_id])->first();
+
         if (isset($payment_data) && function_exists($payment_data->failure_hook)) {
             call_user_func($payment_data->failure_hook, $payment_data);
         }
+
         return $this->payment_response($payment_data, 'fail');
     }
 
