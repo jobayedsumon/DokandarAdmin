@@ -123,6 +123,10 @@ class AamarpayController extends Controller
     {
         $payment_id = $request->input('payment_id') ?: $request->input('opt_a');
 
+        if (!$payment_id) {
+            return response()->json('Invalid payment_id', 400);
+        }
+
         if ($request->input('pay_status') == 'Successful') {
 
             $this->payment::where(['id' => $payment_id])->update([
