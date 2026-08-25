@@ -3656,4 +3656,8 @@
   'distance' => 'Distance',
   'order_already_assign_to_this_deliveryman' => 'Order already assign to this deliveryman',
   'you_are_unassigned_from_a_order' => 'You are unassigned from a order',
+  'admin_employee' => 'Admin employee',
+  'Inactive vendor warning' => 'Inactive vendor warning',
+  'inactive_vendor_warning' => 'Inactive vendor warning',
+  'bank info' => 'Bank info',
 );

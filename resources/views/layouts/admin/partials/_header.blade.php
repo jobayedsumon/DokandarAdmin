@@ -108,24 +108,27 @@
                         </li>
                     @endif
 
-                    @if(auth('admin')->user()->role_id == 1)
-                        <li class="nav-item __nav-item">
-                            <a href="{{ route('admin.investment.dashboard')}}" id="tourb-8" class="__nav-link {{ Request::is('admin/investment*') ? 'active' : '' }}">
-                                <img src="{{asset('assets/admin/img/new-img/transaction-and-report.svg')}}" alt="public/img">
-                                <span>{{ translate('Investment')}}</span>
-                            </a>
-                        </li>
-                    @endif
+{{--                    @if(auth('admin')->user()->role_id == 1)--}}
+{{--                        <li class="nav-item __nav-item">--}}
+{{--                            <a href="{{ route('admin.investment.dashboard')}}" id="tourb-8" class="__nav-link {{ Request::is('admin/investment*') ? 'active' : '' }}">--}}
+{{--                                <img src="{{asset('assets/admin/img/new-img/transaction-and-report.svg')}}" alt="public/img">--}}
+{{--                                <span>{{ translate('Investment')}}</span>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endif--}}
 
-                    <li class="nav-item max-sm-m-0 ml-auto mr-lg-3">
-                        <a class="btn btn-icon rounded-circle nav-msg-icon" href="{{route('admin.message.list')}}">
-                            <img src="{{asset('/assets/admin/img/new-img/message-icon.svg')}}" alt="public/img">
-                            @php($message=\App\Models\Conversation::whereUserType('admin')->where('unread_message_count','>','0')->count())
-                            @if($message!=0)
-                                <span class="btn-status btn-status-danger">{{ $message }}</span>
-                            @endif
-                        </a>
-                    </li>
+
+                        <li class="nav-item max-sm-m-0 ml-auto mr-lg-3">
+                          @if(auth('admin')->user()->role_id == 1)
+                            <a class="btn btn-icon rounded-circle nav-msg-icon" href="{{route('admin.message.list')}}">
+                                <img src="{{asset('/assets/admin/img/new-img/message-icon.svg')}}" alt="public/img">
+                                @php($message=\App\Models\Conversation::whereUserType('admin')->where('unread_message_count','>','0')->count())
+                                @if($message!=0)
+                                    <span class="btn-status btn-status-danger">{{ $message }}</span>
+                                @endif
+                            </a>
+                          @endif
+                        </li>
                     <li class="nav-item max-sm-m-0">
                         <div class="hs-unfold">
                             <div>

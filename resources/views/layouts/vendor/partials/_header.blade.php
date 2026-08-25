@@ -63,16 +63,16 @@
                     </li>
                     <li class="nav-item d-none d-sm-inline-block mr-4">
                         <!-- Notification -->
-                        <div class="hs-unfold">
-                            <a class="js-hs-unfold-invoker btn btn-icon btn-soft-secondary rounded-circle"
-                               href="{{route('vendor.message.list')}}">
-                                <i class="tio-messages-outlined"></i>
-                                @php($message=\App\Models\Conversation::whereUser(\App\CentralLogics\Helpers::get_loggedin_user()->id)->where('unread_message_count','>','0')->count())
-                                @if($message!=0)
-                                    <span class="btn-status btn-sm-status btn-status-danger"></span>
-                                @endif
-                            </a>
-                        </div>
+{{--                        <div class="hs-unfold">--}}
+{{--                            <a class="js-hs-unfold-invoker btn btn-icon btn-soft-secondary rounded-circle"--}}
+{{--                               href="{{route('vendor.message.list')}}">--}}
+{{--                                <i class="tio-messages-outlined"></i>--}}
+{{--                                @php($message=\App\Models\Conversation::whereUser(\App\CentralLogics\Helpers::get_loggedin_user()->id)->where('unread_message_count','>','0')->count())--}}
+{{--                                @if($message!=0)--}}
+{{--                                    <span class="btn-status btn-sm-status btn-status-danger"></span>--}}
+{{--                                @endif--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
                         <!-- End Notification -->
                     </li>
 
