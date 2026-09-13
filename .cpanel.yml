@@ -3,8 +3,7 @@ deployment:
   tasks:
     - |
       for DEPLOYPATH in \
-        /home/dokanda1/admin.dokandar.online/ \
-        /home/dokanda1/devadmin.dokandar.online/
+        /home/dokanda1/admin.dokandar.store/
       do
         echo "Deploying to $DEPLOYPATH"
         /bin/cp -R app $DEPLOYPATH
