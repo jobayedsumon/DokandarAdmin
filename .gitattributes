@@ -1,5 +1,26 @@
-* text=auto
+* text=auto eol=lf
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored
 CHANGELOG.md export-ignore
+
+# Binary files — never normalize line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.cur binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.dat binary
+*.phar binary
+*.zip binary
+*.pdf binary
+*.mp3 binary
+*.mp4 binary
+*.webm binary
+*.woff2 binary
