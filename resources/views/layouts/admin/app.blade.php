@@ -229,7 +229,7 @@
 <script src="{{asset('assets/admin')}}/js/bootstrap-tour-standalone.min.js"></script>
 <script src="{{asset('assets/admin')}}/js/"></script>
 <script src="{{asset('assets/admin/js/owl.min.js')}}"></script>
-<script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"></script>
+<script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" type="text/css"></script>
 <script src="{{asset('assets/admin')}}/js/emogi-area.js"></script>
 <script src="{{asset('assets/admin')}}/js/toastr.js"></script>
 

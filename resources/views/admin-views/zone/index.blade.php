@@ -520,7 +520,19 @@ $(".popover-wrapper").click(function(){
         });
     </script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{\App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value}}&callback=initialize&libraries=drawing,places&v=3.49"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{\App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value}}&callback=__mcxMapsReady&libraries=places"></script>
+    <script>
+        // Google deprecated & removed the native google.maps.drawing library
+        // (DrawingManager) as of Maps JS API v3.65. This polyfill restores it.
+        // It MUST load after the Maps API, hence the callback wrapper.
+        function __mcxMapsReady() {
+            var s = document.createElement('script');
+            s.src = '{{ asset('assets/admin/js/mcx-drawing-polyfill.js') }}';
+            s.onload = function () { initialize(); };
+            s.onerror = function () { console.error('Failed to load mcx-drawing-polyfill.js'); initialize(); };
+            document.head.appendChild(s);
+        }
+    </script>
 
     <script>
         var map; // Global declaration of the map
@@ -599,7 +611,7 @@ $(".popover-wrapper").click(function(){
                 });
             }
 
-            drawingManager.addListener("overlaycomplete", function(event) {
+            google.maps.event.addListener(drawingManager, "overlaycomplete", function(event) {
                 if(lastpolygon)
                 {
                     lastpolygon.setMap(null);

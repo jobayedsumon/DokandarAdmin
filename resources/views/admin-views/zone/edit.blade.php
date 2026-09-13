@@ -173,7 +173,10 @@
 @endsection
 
 @push('script_2')
-<script src="https://maps.googleapis.com/maps/api/js?v=3.45.8&key={{\App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value}}&libraries=drawing,places"></script>
+{{-- Google removed the native google.maps.drawing library (DrawingManager) as of
+     Maps JS API v3.65. The polyfill below restores it; it MUST load after the API. --}}
+<script src="https://maps.googleapis.com/maps/api/js?key={{\App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value}}&libraries=places"></script>
+<script src="{{ asset('assets/admin/js/mcx-drawing-polyfill.js') }}"></script>
 <script>
     auto_grow();
     function auto_grow() {

@@ -3660,4 +3660,5 @@
   'Inactive vendor warning' => 'Inactive vendor warning',
   'inactive_vendor_warning' => 'Inactive vendor warning',
   'bank info' => 'Bank info',
+  'zone_updated_successfully' => 'Zone updated successfully',
 );
