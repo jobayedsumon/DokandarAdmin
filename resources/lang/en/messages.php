@@ -1999,6 +1999,12 @@
   'map_api_key' => 'Map api key',
   'client' => 'Client',
   'server' => 'Server',
+  'Map & Topup APIs' => 'Map & Topup APIs',
+  'Success TopUp API Setup' => 'Success TopUp API Setup',
+  'Enable Success TopUp' => 'Enable Success TopUp',
+  'Success TopUp API Key' => 'Success TopUp API Key',
+  'Success TopUp API Secret' => 'Success TopUp API Secret',
+  'These credentials are used by the customer app to perform mobile recharge, data pack and bill payment. Keep the secret safe.' => 'These credentials are used by the customer app to perform mobile recharge, data pack and bill payment. Keep the secret safe.',
   'Social Login Setup' => 'Social Login Setup',
   'google' => 'Google',
   'Login Turned ON ' => 'Login Turned ON',
@@ -3661,4 +3667,5 @@
   'inactive_vendor_warning' => 'Inactive vendor warning',
   'bank info' => 'Bank info',
   'zone_updated_successfully' => 'Zone updated successfully',
+  'config_data_updated' => 'Config data updated',
 );

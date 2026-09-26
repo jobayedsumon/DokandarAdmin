@@ -2495,6 +2495,18 @@ class BusinessSettingsController extends Controller
             'value' => $request['map_api_key_server']
         ]);
 
+        DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_status'], [
+            'value' => $request['success_topup_status'] ?? 0
+        ]);
+
+        DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_key'], [
+            'value' => $request['success_topup_key'] ?? ''
+        ]);
+
+        DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_secret'], [
+            'value' => $request['success_topup_secret'] ?? ''
+        ]);
+
         Toastr::success(translate('messages.config_data_updated'));
         return back();
     }

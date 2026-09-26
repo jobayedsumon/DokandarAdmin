@@ -12,7 +12,7 @@
                 <a class="nav-link {{ Request::is('admin/business-settings/third-party/mail-config') || Request::is('admin/business-settings/third-party/test-mail')  ? 'active' : '' }}" href="{{ route('admin.business-settings.third-party.mail-config') }}"  aria-disabled="true">{{translate('Mail Config')}}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('admin/business-settings/third-party/config-setup') ?'active':'' }}" href="{{ route('admin.business-settings.third-party.config-setup') }}"  aria-disabled="true">{{translate('Map APIs')}}</a>
+                <a class="nav-link {{ Request::is('admin/business-settings/third-party/config-setup') ?'active':'' }}" href="{{ route('admin.business-settings.third-party.config-setup') }}"  aria-disabled="true">{{translate('Map & Topup APIs')}}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{Request::is('admin/business-settings/third-party/social-login/view')?'active':''}}" href="{{route('admin.business-settings.third-party.social-login.view')}}"  aria-disabled="true">{{translate('Social Logins')}}</a>
