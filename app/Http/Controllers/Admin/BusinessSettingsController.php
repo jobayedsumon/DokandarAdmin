@@ -2487,25 +2487,33 @@ class BusinessSettingsController extends Controller
 
     public function config_update(Request $request)
     {
-        DB::table('business_settings')->updateOrInsert(['key' => 'map_api_key'], [
-            'value' => $request['map_api_key']
-        ]);
+        if ($request->has('map_api_key') || $request->has('map_api_key_server')) {
+            DB::table('business_settings')->updateOrInsert(['key' => 'map_api_key'], [
+                'value' => $request['map_api_key']
+            ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'map_api_key_server'], [
-            'value' => $request['map_api_key_server']
-        ]);
+            DB::table('business_settings')->updateOrInsert(['key' => 'map_api_key_server'], [
+                'value' => $request['map_api_key_server']
+            ]);
+        }
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_status'], [
-            'value' => $request['success_topup_status'] ?? 0
-        ]);
+        if ($request->has('success_topup_form')) {
+            DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_status'], [
+                'value' => $request['success_topup_status'] ?? 0
+            ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_key'], [
-            'value' => $request['success_topup_key'] ?? ''
-        ]);
+            DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_go_live'], [
+                'value' => $request['success_topup_go_live'] ?? 0
+            ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_secret'], [
-            'value' => $request['success_topup_secret'] ?? ''
-        ]);
+            DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_key'], [
+                'value' => $request['success_topup_key'] ?? ''
+            ]);
+
+            DB::table('business_settings')->updateOrInsert(['key' => 'success_topup_secret'], [
+                'value' => $request['success_topup_secret'] ?? ''
+            ]);
+        }
 
         Toastr::success(translate('messages.config_data_updated'));
         return back();

@@ -334,6 +334,14 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
                 Route::post('fund-transfer', 'WalletController@fund_transfer');
             });
 
+            Route::group(['prefix'=>'topup'], function() {
+                Route::post('recharge', 'TopupController@recharge');
+                Route::post('drives', 'TopupController@drives');
+                Route::post('bill-pay', 'TopupController@billPay');
+                Route::post('status', 'TopupController@status');
+                Route::get('balance', 'TopupController@balance');
+            });
+
             Route::group(['prefix' => 'investment'], function () {
 
                 Route::get('packages', 'InvestmentController@packages');

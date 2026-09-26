@@ -29,7 +29,7 @@ class CustomerLogic
         $credit = 0.0;
         $admin_bonus = 0.0;
 
-        if (in_array($transaction_type, ['add_fund_by_admin', 'add_fund', 'order_refund', 'loyalty_point', 'referrer', 'add_fund_by_transfer', 'investment_to_wallet'])) {
+        if (in_array($transaction_type, ['add_fund_by_admin', 'add_fund', 'order_refund', 'loyalty_point', 'referrer', 'add_fund_by_transfer', 'investment_to_wallet', 'topup_refund'])) {
             $credit = $amount;
             if ($transaction_type == 'add_fund') {
                 $admin_bonus = self::calculate_wallet_bonus($amount);
@@ -46,7 +46,7 @@ class CustomerLogic
                     $credit = (int)($amount / BusinessSetting::where('key', 'loyalty_point_exchange_rate')->first()->value);
                 }
             }
-        } else if (in_array($transaction_type, ['order_place', 'fund_transfer'])) {
+        } else if (in_array($transaction_type, ['order_place', 'fund_transfer', 'topup_recharge', 'topup_bill'])) {
             $debit = $amount;
         } else if ($transaction_type == 'partial_payment') {
             $debit = $amount;
@@ -68,7 +68,7 @@ class CustomerLogic
                 Helpers::expenseCreate(amount:$admin_bonus,type:'add_fund_bonus',created_by:'admin',user_id:$user->id,datetime:now());
             }
             DB::commit();
-            if (in_array($transaction_type, ['loyalty_point', 'order_place', 'add_fund_by_admin', 'referrer','partial_payment', 'add_fund', 'fund_transfer'])) return $wallet_transaction;
+            if (in_array($transaction_type, ['loyalty_point', 'order_place', 'add_fund_by_admin', 'referrer','partial_payment', 'add_fund', 'fund_transfer', 'topup_recharge', 'topup_bill', 'topup_refund'])) return $wallet_transaction;
             return true;
         } catch (\Exception $ex) {
             info($ex->getMessage());

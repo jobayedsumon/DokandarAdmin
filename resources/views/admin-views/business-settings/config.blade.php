@@ -30,6 +30,8 @@
 
         @php($success_topup_status=\App\Models\BusinessSetting::where(['key'=>'success_topup_status'])->first())
         @php($success_topup_status=$success_topup_status?$success_topup_status->value:0)
+        @php($success_topup_go_live=\App\Models\BusinessSetting::where(['key'=>'success_topup_go_live'])->first())
+        @php($success_topup_go_live=$success_topup_go_live?$success_topup_go_live->value:0)
         @php($success_topup_key=\App\Models\BusinessSetting::where(['key'=>'success_topup_key'])->first())
         @php($success_topup_key=$success_topup_key?$success_topup_key->value:null)
         @php($success_topup_secret=\App\Models\BusinessSetting::where(['key'=>'success_topup_secret'])->first())
@@ -106,12 +108,27 @@
             <div class="card-body">
                 <form action="{{env('APP_MODE')!='demo'?route('admin.business-settings.third-party.config-update'):'javascript:'}}" method="post" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="success_topup_form" value="1">
                     <div class="row gy-3">
                         <div class="col-md-12">
                             <div class="form-group mb-0">
                                 <label class="toggle-switch toggle-switch-sm d-flex justify-content-between border border-secondary rounded px-4 form-control">
                                     <span class="pr-2">{{ translate('Enable Success TopUp') }}</span>
                                     <input type="checkbox" name="success_topup_status" id="success_topup_status" value="1" class="toggle-switch-input" {{ $success_topup_status == 1 ? 'checked' : '' }}>
+                                    <span class="toggle-switch-label text">
+                                        <span class="toggle-switch-indicator"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group mb-0">
+                                <label class="toggle-switch toggle-switch-sm d-flex justify-content-between border border-secondary rounded px-4 form-control">
+                                    <span class="pr-2">
+                                        {{ translate('Go Live') }}
+                                        <small class="d-block text-muted">{{ translate('Disabled uses the Success TopUp sandbox endpoint. Enabled sends real transactions.') }}</small>
+                                    </span>
+                                    <input type="checkbox" name="success_topup_go_live" id="success_topup_go_live" value="1" class="toggle-switch-input" {{ $success_topup_go_live == 1 ? 'checked' : '' }}>
                                     <span class="toggle-switch-label text">
                                         <span class="toggle-switch-indicator"></span>
                                     </span>

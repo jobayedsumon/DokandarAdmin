@@ -3668,4 +3668,6 @@
   'bank info' => 'Bank info',
   'zone_updated_successfully' => 'Zone updated successfully',
   'config_data_updated' => 'Config data updated',
+  'Disabled uses the Success TopUp sandbox endpoint. Enabled sends real transactions.' => 'Disabled uses the Success TopUp sandbox endpoint. Enabled sends real transactions.',
+  'Go Live' => 'Go Live',
 );
