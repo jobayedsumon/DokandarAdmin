@@ -293,8 +293,30 @@ class ConfigController extends Controller
         if ($validator->errors()->count()>0) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
-        $response = Http::get('https://maps.googleapis.com/maps/api/place/autocomplete/json?input='.$request['search_text'].'&key='.$this->map_api_key);
-        return $response->json();
+
+        $response = Http::withHeaders([
+            'X-Goog-Api-Key' => $this->map_api_key,
+        ])->post('https://places.googleapis.com/v1/places:autocomplete', [
+            'input' => $request['search_text'],
+        ]);
+
+        $data = $response->json();
+        if (!$response->successful() || !isset($data['suggestions'])) {
+            return $data;
+        }
+
+        return [
+            'status' => 'OK',
+            'predictions' => collect($data['suggestions'])
+                ->pluck('placePrediction')
+                ->filter()
+                ->map(fn ($prediction) => [
+                    'description' => data_get($prediction, 'text.text'),
+                    'place_id' => data_get($prediction, 'placeId'),
+                ])
+                ->values()
+                ->all(),
+        ];
     }
 
 
@@ -324,8 +346,28 @@ class ConfigController extends Controller
         if ($validator->errors()->count()>0) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
-        $response = Http::get('https://maps.googleapis.com/maps/api/place/details/json?placeid='.$request['placeid'].'&key='.$this->map_api_key);
-        return $response->json();
+
+        $response = Http::withHeaders([
+            'X-Goog-Api-Key' => $this->map_api_key,
+            'X-Goog-FieldMask' => 'location',
+        ])->get('https://places.googleapis.com/v1/places/'.$request['placeid']);
+
+        $data = $response->json();
+        if (!$response->successful() || !isset($data['location'])) {
+            return $data;
+        }
+
+        return [
+            'status' => 'OK',
+            'result' => [
+                'geometry' => [
+                    'location' => [
+                        'lat' => data_get($data, 'location.latitude'),
+                        'lng' => data_get($data, 'location.longitude'),
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function geocode_api(Request $request)
