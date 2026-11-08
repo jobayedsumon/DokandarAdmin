@@ -349,7 +349,7 @@ class ConfigController extends Controller
 
         $response = Http::withHeaders([
             'X-Goog-Api-Key' => $this->map_api_key,
-            'X-Goog-FieldMask' => 'location',
+            'X-Goog-FieldMask' => 'location,types',
         ])->get('https://places.googleapis.com/v1/places/'.$request['placeid']);
 
         $data = $response->json();
@@ -366,6 +366,7 @@ class ConfigController extends Controller
                         'lng' => data_get($data, 'location.longitude'),
                     ],
                 ],
+                'types' => data_get($data, 'types', []),
             ],
         ];
     }
